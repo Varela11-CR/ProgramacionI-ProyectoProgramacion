@@ -1,10 +1,13 @@
 package Services;
 
 import Models.Patient;
+import static Utilities.ValidateForm.isDigit;
+import static Utilities.ValidateForm.isLastname;
+import static Utilities.ValidateForm.isNames;
+import static Utilities.ValidateForm.isPhoneNumber;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,7 +25,51 @@ public class PatientsService {
     }
 
     //  Methods
-    public void insertData(Patient patient) throws SQLException {
+    public boolean validateAllDataIncomplete(Patient patient) {
+
+        boolean allDataIncomplete = (patient.getIdPatient().equals(""))
+                && (patient.getNamePatient().equals(""))
+                && (patient.getFirstLastName().equals(""))
+                && (patient.getSecondLastName().equals(""))
+                && (patient.getNationality().equals(""))
+                && (patient.getBirthdate().equals(""))
+                && (patient.getTestDay().equals(""))
+                && (patient.getPhoneNumber().equals(""))
+                && (patient.getAddress().equals(""));
+
+        return allDataIncomplete;
+
+    }
+
+    public boolean validateDataByData(Patient patient) {
+
+        boolean allDataIncomplete = (patient.getIdPatient().equals(""))
+                || (patient.getNamePatient().equals(""))
+                || (patient.getFirstLastName().equals(""))
+                || (patient.getSecondLastName().equals(""))
+                || (patient.getNationality().equals(""))
+                || (patient.getBirthdate().equals(""))
+                || (patient.getTestDay().equals(""))
+                || (patient.getPhoneNumber().equals(""))
+                || (patient.getAddress().equals(""));
+
+        return allDataIncomplete;
+    }
+
+    public boolean validateDataTypes(Patient patient) {
+
+        boolean correctDataTypes = isDigit(patient.getIdPatient())
+                && isNames(patient.getNamePatient())
+                && isLastname(patient.getFirstLastName())
+                && isLastname(patient.getSecondLastName())
+                && isLastname(patient.getNationality())
+                && isPhoneNumber(patient.getPhoneNumber());
+
+        return correctDataTypes;
+
+    }
+
+    public boolean insertData(Patient patient) throws SQLException {
 
         ConnectionDB connectionDB = new ConnectionDB();
         Connection connection = connectionDB.getConnectionDB();
@@ -56,11 +103,27 @@ public class PatientsService {
             }
 
             connectionDB.closeConnectionDB();
+            
+            return true;
 
         } catch (SQLException e) {
 
-            connectionDB.closeConnectionDB();
-            JOptionPane.showMessageDialog(null, e);
+            if (e.getSQLState().equals("23000")) {
+
+                connectionDB.closeConnectionDB();
+                JOptionPane.showMessageDialog(null, "La cédula pertenece a otro "
+                        + "paciente. Revísela y vuelva a intentar ingresar al "
+                        + "paciente.");
+                
+                return false;
+
+            } else {
+
+                connectionDB.closeConnectionDB();
+                JOptionPane.showMessageDialog(null, e);
+                return false;
+
+            }
 
         }
 
@@ -106,7 +169,7 @@ public class PatientsService {
         return model;
 
     }
-    
+
     public DefaultTableModel showInformationBy(String colum, String searchText) throws SQLException {
 
         String[] colums = {"Cédula", "Nombre", "P. Apellido", "S. Apellido", "Nacionalidad",

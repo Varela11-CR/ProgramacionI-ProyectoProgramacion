@@ -2,13 +2,16 @@ package Windows;
 
 import Models.Patient;
 import Services.PatientsService;
+import static Utilities.ValidateForm.manipulateString;
 import WindowsBackground.PatientRegistry.PatientRegistryBackgroundAbove;
 import WindowsBackground.PatientRegistry.PatientRegistryBackgroundBelow;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.toedter.calendar.JTextFieldDateEditor;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.JTextComponent;
@@ -144,6 +147,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         labelObservations.setText("Observaciones:");
 
         textFieldIdPatient.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
+        textFieldIdPatient.setToolTipText("");
         textFieldIdPatient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldIdPatientActionPerformed(evt);
@@ -449,35 +453,59 @@ public class PatientRegistry extends javax.swing.JFrame {
         buttonNew.setEnabled(true);
 
     }
-    
+
     private void lockDateEditor() {
-    
+
         ((JTextFieldDateEditor) dateChooserBirthdate.getDateEditor()).setEnabled(false);
         ((JTextFieldDateEditor) dateChooserTestDay.getDateEditor()).setEnabled(false);
-    
+
     }
 
-    private void insertPatients() throws SQLException {
+    private void insertPatients() throws SQLException, UnsupportedEncodingException {
 
         PatientsService patientsService = new PatientsService();
         Patient patient = new Patient();
 
-        patient.setIdPatient(textFieldIdPatient.getText());
-        patient.setNamePatient(textFieldNamePatient.getText());
-        patient.setFirstLastName(textFieldFirstLastName.getText());
-        patient.setSecondLastName(textFieldSecondLastName.getText());
-        patient.setNationality(textFieldNationality.getText());
+        patient.setIdPatient(textFieldIdPatient.getText().trim());
+        patient.setNamePatient(manipulateString(textFieldNamePatient.getText()));
+        patient.setFirstLastName(manipulateString(textFieldFirstLastName.getText()));
+        patient.setSecondLastName(manipulateString(textFieldSecondLastName.getText()));
+        patient.setNationality(manipulateString(textFieldNationality.getText()));
         patient.setBirthdate(((JTextComponent) dateChooserBirthdate.getDateEditor().getUiComponent()).getText());
         patient.setTestDay(((JTextComponent) dateChooserTestDay.getDateEditor().getUiComponent()).getText());
         patient.setTestStatus(comboBoxTestStatus.getSelectedItem().toString());
-        patient.setPhoneNumber(textFieldPhoneNumber.getText());
-        patient.setAddress(textFieldAddress.getText());
-        patient.setObservations(textAreaObservations.getText());
+        patient.setPhoneNumber(textFieldPhoneNumber.getText().trim());
+        patient.setAddress(manipulateString(textFieldAddress.getText()));
+        patient.setObservations(manipulateString(textAreaObservations.getText()));
 
-        patientsService.insertData(patient);
+        if (patientsService.validateAllDataIncomplete(patient)) {
 
-        cleanComponents();
-        lockComponents();
+            JOptionPane.showMessageDialog(null, "Todos los campos requeridos por "
+                    + "el formulario están vacíos, rellénelos y vuelva a intentar "
+                    + "ingresar al paciente.");
+
+        } else if (patientsService.validateDataByData(patient)) {
+
+            JOptionPane.showMessageDialog(null, "Uno o más campos requeridos "
+                    + "por el formulario están vacíos, rellénelos y vuelva a "
+                    + "intentar ingresar al paciente.");
+
+        } else if (!patientsService.validateDataTypes(patient)) {
+
+            JOptionPane.showMessageDialog(null, "Uno o más tipos de datos no son "
+                    + "los solicitados por el formulario, revíselos y vuelva a "
+                    + "intentar ingresar al paciente.");
+
+        } else {
+
+            if (patientsService.insertData(patient)) {
+
+                cleanComponents();
+                lockComponents();
+
+            }
+
+        }
 
     }
 
@@ -497,7 +525,7 @@ public class PatientRegistry extends javax.swing.JFrame {
 
         try {
             insertPatients();
-        } catch (SQLException ex) {
+        } catch (SQLException | UnsupportedEncodingException ex) {
             Logger.getLogger(PatientRegistry.class.getName()).log(Level.SEVERE, null, ex);
         }
 
