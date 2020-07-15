@@ -5,6 +5,11 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+/**
+ * @author JD101
+ * 
+ * Establece el fondo de un panel con una imagen especifica.
+ */
 public class LoginBackgroundBelow extends JPanel{
     
     private Image image;

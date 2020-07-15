@@ -1,5 +1,11 @@
 package Models;
 
+/**
+ * @author JD101
+ * 
+ * Su función es tomar a una persona y sus características para convertirlo en 
+ * un objeto Java.
+ */
 public class Person {
 
     private String idPatient;
@@ -12,6 +18,9 @@ public class Person {
     private String address;
 
     //  Constructors
+    /**
+     * Este constructor inicializa todos sus atributos nulos.
+     */
     public Person() {
 
         this.idPatient = null;
@@ -25,6 +34,18 @@ public class Person {
 
     }
 
+    /**
+     * Este constructor inicializa los atributos de acuerdo a los parámetros 
+     * ingresados.
+     * @param idPatient
+     * @param namePatient
+     * @param firstLastName
+     * @param secondLastName
+     * @param nationality
+     * @param birthdate
+     * @param phoneNumber
+     * @param address
+     */
     public Person(String idPatient, String namePatient, String firstLastName, 
             String secondLastName, String nationality, String birthdate, 
             String phoneNumber, String address) {

@@ -1,5 +1,11 @@
 package Models;
 
+/**
+ * @author JD101
+ * 
+ * Su función es tomar a un paciente y sus características para convertirlo en 
+ * un objeto Java. 
+ */
 public class Patient extends Person{
     
     private String testDay;
@@ -7,6 +13,9 @@ public class Patient extends Person{
     private String observations;
 
     //  Constructors
+    /**
+     * Este constructor inicializa todos sus atributos nulos.
+     */
     public Patient() {
 
         this.testDay = null;
@@ -15,6 +24,13 @@ public class Patient extends Person{
         
     }
 
+    /**
+     * Este constructor inicializa los atributos de acuerdo a los parámetros 
+     * ingresados.
+     * @param testday
+     * @param teststatus
+     * @param observations 
+     */
     public Patient(String testday, String teststatus, String observations) {
         
         this.testDay = testday;

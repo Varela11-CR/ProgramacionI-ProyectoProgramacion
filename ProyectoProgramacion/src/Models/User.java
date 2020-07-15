@@ -1,5 +1,11 @@
 package Models;
 
+/**
+ * @author JD101
+ * 
+ * Su función es tomar a un usuario y sus características que está registrado 
+ * en la base de datos para convertirlo en un objeto Java. 
+ */
 public class User {
 
     private String userName;
@@ -7,9 +13,19 @@ public class User {
     private int permissions;
 
     //  Constructors
+    /**
+     * Constructor vacio.
+     */
     public User() {
     }
 
+    /**
+     * Este constructor inicializa los atributos de acuerdo a los parámetros 
+     * ingresados.
+     * @param userName
+     * @param userPassword
+     * @param permissions 
+     */
     public User(String userName, String userPassword, int permissions) {
         this.userName = userName;
         this.userPassword = userPassword;

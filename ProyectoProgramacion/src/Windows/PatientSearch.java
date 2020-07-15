@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Windows;
 
 import Services.PatientsService;
@@ -18,7 +13,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
  * @author JD101
  */
 public class PatientSearch extends javax.swing.JFrame {
@@ -179,6 +173,12 @@ public class PatientSearch extends javax.swing.JFrame {
 
     //  Own Code
     //  ------------------------------------------------------------------------
+    /**
+     * Inicializa la tabla con todos los datos que contiene la tabla patient.
+     * @throws SQLException 
+     * Controla los errores tipo SQL que se pudieran dar por la consulta de la 
+     * información a la base de datos.
+     */
     private void initTablePatientsTable() throws SQLException {
 
         PatientsService patientService = new PatientsService();
@@ -187,6 +187,16 @@ public class PatientSearch extends javax.swing.JFrame {
 
     }
     
+    /**
+     * Establece la tabla según los valores ingresados.
+     * @param filterPosition
+     * Indica la columna donde se va a buscar el texto a buscar.
+     * @param searchText
+     * Indica el texto a buscar en la tabla ingresada.
+     * @throws SQLException 
+     * Controla los errores tipo SQL que se pudieran dar por la consulta de la 
+     * 
+     */
     private void setTableByTheFilter(int filterPosition, String searchText) throws SQLException {
     
         PatientsService patientsService = new PatientsService();
@@ -224,6 +234,12 @@ public class PatientSearch extends javax.swing.JFrame {
         
     }
 
+    /**
+     * Establece la tabla con toda la información de la base de datos si el 
+     * campo del texto a buscar está vacío. Si el texto a buscar no está vacío 
+     * toma el filtro para poder decidir en cual tabla buscar el texto.
+     * @param evt 
+     */
     private void buttonSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchButtonActionPerformed
 
         String searchText = StringUtils.capitalize(textFieldSearchBar.getText());
@@ -239,47 +255,7 @@ public class PatientSearch extends javax.swing.JFrame {
                 Logger.getLogger(PatientSearch.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-        }else if (comboBoxSearchFilter.getSelectedIndex() == 0) {
-            
-            try {
-                setTableByTheFilter(filterPosition, searchText);
-            } catch (SQLException ex) {
-                Logger.getLogger(PatientSearch.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        }else if (comboBoxSearchFilter.getSelectedIndex() == 1) {
-            
-            try {
-                setTableByTheFilter(filterPosition, searchText);
-            } catch (SQLException ex) {
-                Logger.getLogger(PatientSearch.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        }else if (comboBoxSearchFilter.getSelectedIndex() == 2) {
-            
-            try {
-                setTableByTheFilter(filterPosition, searchText);
-            } catch (SQLException ex) {
-                Logger.getLogger(PatientSearch.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        }else if (comboBoxSearchFilter.getSelectedIndex() == 3) {
-            
-            try {
-                setTableByTheFilter(filterPosition, searchText);
-            } catch (SQLException ex) {
-                Logger.getLogger(PatientSearch.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        }else if (comboBoxSearchFilter.getSelectedIndex() == 4) {
-            
-            try {
-                setTableByTheFilter(filterPosition, searchText);
-            } catch (SQLException ex) {
-                Logger.getLogger(PatientSearch.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        }else if (comboBoxSearchFilter.getSelectedIndex() == 5) {
+        }else{
             
             try {
                 setTableByTheFilter(filterPosition, searchText);
@@ -298,7 +274,8 @@ public class PatientSearch extends javax.swing.JFrame {
     private void comboBoxSearchFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSearchFilterActionPerformed
         comboBoxSearchFilter.transferFocus();
     }//GEN-LAST:event_comboBoxSearchFilterActionPerformed
-
+    //  ------------------------------------------------------------------------
+    
     /**
      * @param args the command line arguments
      */

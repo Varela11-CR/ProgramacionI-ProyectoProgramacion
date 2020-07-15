@@ -1,22 +1,20 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Windows;
 
 import Models.User;
 import Services.UsersService;
 import WindowsBackground.Login.LoginBackgroundBelow;
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
- *
  * @author JD101
+ *
+ * Interfaz grafica de la ventana de inicio de sesión.
  */
 public class Login extends javax.swing.JFrame {
 
@@ -185,12 +183,15 @@ public class Login extends javax.swing.JFrame {
         passwordFieldPassword.transferFocus();
     }//GEN-LAST:event_passwordFieldPasswordActionPerformed
 
+    /**
+     * Evalúa las credenciales ingresadas en el login para conceder acceso o no.
+     * @param evt 
+     */
     private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
 
         UsersService usersService = new UsersService();
         User user = new User();
         String password = new String(passwordFieldPassword.getPassword());
-        System.out.println(textFieldUser.getText());
         boolean textFieldUserEmpty = !textFieldUser.getText().equals("");
         boolean passwordFieldPasswordEmpty = !password.equals("");
 
@@ -199,21 +200,25 @@ public class Login extends javax.swing.JFrame {
             user.setUserName(textFieldUser.getText());
             user.setUserPassword(password);
 
-            if (usersService.login(user)) {
+            try {
 
-                this.dispose();
+                if (usersService.login(user)) {
 
-                PatientRegistry formPatientRegistry = new PatientRegistry();
-                formPatientRegistry.setVisible(true);
+                    this.dispose();
 
-            } else {
-                JOptionPane.showMessageDialog(null, "Datos incorrectos.");
+                    PatientRegistry formPatientRegistry = new PatientRegistry();
+                    formPatientRegistry.setVisible(true);
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Datos incorrectos.");
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } else {
-
             JOptionPane.showMessageDialog(null, "Debe ingresar los datos solicitados.");
-
         }
 
     }//GEN-LAST:event_buttonLoginActionPerformed
@@ -221,6 +226,7 @@ public class Login extends javax.swing.JFrame {
     private void textFieldUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldUserActionPerformed
         textFieldUser.transferFocus();
     }//GEN-LAST:event_textFieldUserActionPerformed
+    //  ------------------------------------------------------------------------
 
     /**
      * @param args the command line arguments
@@ -232,9 +238,9 @@ public class Login extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            
+
             UIManager.setLookAndFeel(new FlatIntelliJLaf());
-            
+
         } catch (UnsupportedLookAndFeelException ex) {
             System.err.println("Failed to initialize LaF");
         }

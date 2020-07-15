@@ -3,8 +3,12 @@ package Services;
 import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
+/**
+ * @author JD101
+ * 
+ * Clase para realizar las conexiones a la base de datos.
+ */
 public class ConnectionDB {
 
     private static Connection connectionDB;
@@ -14,6 +18,12 @@ public class ConnectionDB {
     private static final String user = "root";
     private static final String password = "password";
 
+    /**
+     * Constructor del objeto de tipo ConnectionDB.   Usa los atributos de la 
+     * clase para establecer el driver, host, la base de datos, el usuario y la 
+     * contraseña para conectarse a la base de datos. Indica por consola si la 
+     * conexión fue exitosa o no.
+     */
     public ConnectionDB() {
     
         connectionDB = null;
@@ -33,14 +43,26 @@ public class ConnectionDB {
         
     }
     
-    //  Este método nos retorna la conexión.
+    /**
+     * Obtiene el objeto ya inicializado para realizar los procesos en la base 
+     * de datos.
+     * @return 
+     * Retorna un objeto de tipo Connection ya completamente instanciado listo 
+     * para su uso.
+     */
     public Connection getConnectionDB() {
 
         return connectionDB;
 
     }
 
-    //  Con este método nos desconectamos de la base de datos.
+    /**
+     * Cierra la conexión con la base de datos. Indica por consola si la 
+     * conexión fue terminada.
+     * @throws SQLException 
+     * Controla los errores de tipo SQL que se pudieran dar por el cierre de la 
+     * conexión a la base de datos.
+     */
     public void closeConnectionDB() throws SQLException {
 
         connectionDB.close();

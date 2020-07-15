@@ -11,11 +11,27 @@ public class UsersService {
     private final String tabla = "users";
 
     //  Constructors
+    /**
+     * Constructor vacio.
+     */
     public UsersService() {
     }
     
     //  Methods
-    public boolean login(User user) {
+    /**
+     * Evalúa los atributos del objeto tipo User con los datos de la tabla users 
+     * de la base de datos para dar acceso o no al programa.
+     * @param user
+     * Toma un objeto tipo User y con sus atributos hace las validaciones 
+     * necesarias.
+     * @return 
+     * Retorna un valor booleano indicando el acceso. True acceso concedido, 
+     * False acceso denegado.
+     * @throws java.sql.SQLException
+     * Controla los errores tipo SQL que se pudieran dar por la validación de 
+     * datos.
+     */
+    public boolean login(User user) throws SQLException {
     
         ConnectionDB connectionDB = new ConnectionDB();
         Connection connection = connectionDB.getConnectionDB();
@@ -51,6 +67,7 @@ public class UsersService {
             return false;
             
         } catch (SQLException e) {
+            connectionDB.closeConnectionDB();
             return false;
         }
         

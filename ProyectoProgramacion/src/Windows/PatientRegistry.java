@@ -7,7 +7,6 @@ import WindowsBackground.PatientRegistry.PatientRegistryBackgroundAbove;
 import WindowsBackground.PatientRegistry.PatientRegistryBackgroundBelow;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.toedter.calendar.JTextFieldDateEditor;
-import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,14 +16,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.JTextComponent;
 
 /**
- *
  * @author JD101
  */
 public class PatientRegistry extends javax.swing.JFrame {
 
-    //  Variables & Objects
-    //--------------------------------------------------------------------------
-    //--------------------------------------------------------------------------
     /**
      * Creates new form PatientRegistry
      */
@@ -400,6 +395,9 @@ public class PatientRegistry extends javax.swing.JFrame {
 
     //  Own Code
     //  ------------------------------------------------------------------------
+    /**
+     * Limpia los componentes para que no salgan con datos en la pantalla.
+     */
     private void cleanComponents() {
 
         textFieldIdPatient.setText("");
@@ -416,6 +414,9 @@ public class PatientRegistry extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Desbloquea todos los componentes y el botón nuevo lo bloquea.
+     */
     private void unlockComponents() {
 
         textFieldIdPatient.setEnabled(true);
@@ -435,6 +436,9 @@ public class PatientRegistry extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Bloquea los componentes menos el botón nuevo.
+     */
     private void lockComponents() {
 
         textFieldIdPatient.setEnabled(false);
@@ -454,6 +458,9 @@ public class PatientRegistry extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Bloquea el editor de fecha para que no pueda ser editado por teclado.
+     */
     private void lockDateEditor() {
 
         ((JTextFieldDateEditor) dateChooserBirthdate.getDateEditor()).setEnabled(false);
@@ -461,7 +468,16 @@ public class PatientRegistry extends javax.swing.JFrame {
 
     }
 
-    private void insertPatients() throws SQLException, UnsupportedEncodingException {
+    /**
+     * Toma los valores de los componentes y los asigna a un objeto tipo 
+     * Patient, luego hace las comprobaciones para poder insertar los datos, si 
+     * todo esta bien con el tipo de datos procede a insertar estos, limpiar los 
+     * componentes y volver a bloquearlos.
+     * @throws SQLException
+     * Controla los errores tipo SQL que se pudieran dar por el ingreso de 
+     * información a la base de datos.
+     */
+    private void insertPatient() throws SQLException {
 
         PatientsService patientsService = new PatientsService();
         Patient patient = new Patient();
@@ -521,16 +537,24 @@ public class PatientRegistry extends javax.swing.JFrame {
         textFieldAddress.transferFocus();
     }//GEN-LAST:event_textFieldAddressActionPerformed
 
+    /**
+     * Invoca al método insertPatient().
+     * @param evt 
+     */
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
 
         try {
-            insertPatients();
-        } catch (SQLException | UnsupportedEncodingException ex) {
+            insertPatient();
+        } catch (SQLException ex) {
             Logger.getLogger(PatientRegistry.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_buttonAddActionPerformed
 
+    /**
+     * Desbloquea los componentes y bloquea el editor de fecha.
+     * @param evt 
+     */
     private void buttonNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNewActionPerformed
 
         unlockComponents();
@@ -539,6 +563,10 @@ public class PatientRegistry extends javax.swing.JFrame {
 
     }//GEN-LAST:event_buttonNewActionPerformed
 
+    /**
+     * Limpia y bloquea los componentes.
+     * @param evt 
+     */
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
 
         cleanComponents();
@@ -565,6 +593,7 @@ public class PatientRegistry extends javax.swing.JFrame {
     private void textFieldPhoneNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldPhoneNumberActionPerformed
         textFieldPhoneNumber.transferFocus();
     }//GEN-LAST:event_textFieldPhoneNumberActionPerformed
+    //  ------------------------------------------------------------------------
 
     /**
      * @param args the command line arguments

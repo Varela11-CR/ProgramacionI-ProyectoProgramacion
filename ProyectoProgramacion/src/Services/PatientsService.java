@@ -12,6 +12,11 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * @author JD101
+ * 
+ * Su función es ser la representación de la tabla patients de la base de datos.
+ */
 public class PatientsService {
 
     private final String table = "patients";
@@ -21,10 +26,22 @@ public class PatientsService {
         "address_patient", "observations_patient"};
 
     //  Constructor
+    /**
+     * Constructor vacio
+     */
     public PatientsService() {
     }
 
     //  Methods
+    /**
+     * Valida que el objeto tipo Patient no tenga sus atributos vacíos.
+     * @param patient
+     * Toma un objeto de tipo Patient para hacer las validaciones respectivas.
+     * @return 
+     * Retorna un valor booleano para verificar si el objeto está completamente 
+     * vacío o no. True equivale al objeto completamente vacío, False equivale 
+     * al objeto por lo menos con un atributo lleno.
+     */
     public boolean validateAllDataIncomplete(Patient patient) {
 
         boolean allDataIncomplete = (patient.getIdPatient().equals(""))
@@ -41,6 +58,15 @@ public class PatientsService {
 
     }
 
+    /**
+     * Valida que el objeto tipo Patient no tenga uno o más atributos vacíos.
+     * @param patient
+     * Toma un objeto de tipo Patient para hacer las validaciones respectivas.
+     * @return 
+     * Retorna un valor booleano para verificar si el objeto tiene uno o más 
+     * atributos vacíos. True equivale a uno o más atributos del objeto están 
+     * vacíos, False equivale al objeto con sus atributos llenos.
+     */
     public boolean validateDataByData(Patient patient) {
 
         boolean allDataIncomplete = (patient.getIdPatient().equals(""))
@@ -56,6 +82,16 @@ public class PatientsService {
         return allDataIncomplete;
     }
 
+    /**
+     * Valida que los tipos de los atributos sean los requeridos por el programa.
+     * @param patient
+     * Toma un objeto de tipo Patient para hacer las validaciones respectivas.
+     * @return 
+     * Retorna un valor booleano para verificar si los atributos del objeto 
+     * cumplen con los tipos requeridos. True equivale a todos los valores son 
+     * los tipos requeridos por el programa, False uno o mas datos no son los 
+     * tipos requeridos por el programa.
+     */
     public boolean validateDataTypes(Patient patient) {
 
         boolean correctDataTypes = isDigit(patient.getIdPatient())
@@ -69,6 +105,19 @@ public class PatientsService {
 
     }
 
+    /**
+     * Realiza el ingreso de los datos en la tabla patients.
+     * @param patient
+     * Toma los atributos del objeto tipo Patient para ingresarlos en la 
+     * respectiva tabla.
+     * @return
+     * Retorna un valor booleano dependiendo de la conclusión del ingreso de la 
+     * información. True el ingreso de los datos termino correctamente, False el 
+     * ingreso de los datos no se concretó. 
+     * @throws SQLException 
+     * Controla los errores tipo SQL que se pudieran dar por el ingreso de 
+     * información a la base de datos.
+     */
     public boolean insertData(Patient patient) throws SQLException {
 
         ConnectionDB connectionDB = new ConnectionDB();
@@ -129,6 +178,16 @@ public class PatientsService {
 
     }
 
+    /**
+     * Muestra toda la información de la tabla, con objeto Java tipo 
+     * DefaultTableModel.
+     * @return
+     * Retorna un objeto DefaultTableModel con las columnas de la tabla patients 
+     * de la base de datos y las filas obtenidas en la consulta SQL.
+     * @throws SQLException 
+     * Controla los errores de tipo SQL que se pudieran dar por la consulta de 
+     * información a la base de datos.
+     */
     public DefaultTableModel showInformation() throws SQLException {
 
         String[] colums = {"Cédula", "Nombre", "P. Apellido", "S. Apellido", "Nacionalidad",
@@ -170,6 +229,20 @@ public class PatientsService {
 
     }
 
+    /**
+     * Muestra toda la información de la tabla dependiendo de la columna y el 
+     * texto a buscar, con objeto Java tipo DefaultTableModel.
+     * @param colum
+     * Es la columna donde se va a buscar el texto a buscar.
+     * @param searchText
+     * Es el texto a buscar en la columna.
+     * @return
+     * Retorna un objeto DefaultTableModel con la columna ingresada de la tabla 
+     * patients de la base de datos y las filas obtenidas en la consulta SQL.
+     * @throws SQLException 
+     * Controla los errores de tipo SQL que se pudieran dar por la consulta de 
+     * información a la base de datos.
+     */
     public DefaultTableModel showInformationBy(String colum, String searchText) throws SQLException {
 
         String[] colums = {"Cédula", "Nombre", "P. Apellido", "S. Apellido", "Nacionalidad",
