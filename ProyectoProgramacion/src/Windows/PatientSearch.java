@@ -6,7 +6,7 @@ import Services.PatientsService;
 import WindowsBackground.PatientSearch.PatientSearchBackgroundAbove;
 import WindowsBackground.PatientSearch.PatientSearchBackgroundBelow;
 import com.formdev.flatlaf.FlatIntelliJLaf;
-import com.sun.xml.internal.ws.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
