@@ -3,5 +3,7 @@ Services
 Utilities
 Windows
 WindowsBackground.Login
+WindowsBackground.Menu
+WindowsBackground.PatientModify
 WindowsBackground.PatientRegistry
 WindowsBackground.PatientSearch

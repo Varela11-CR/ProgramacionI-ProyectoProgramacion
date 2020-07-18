@@ -1,13 +1,18 @@
 package Windows;
 
+import Models.Patient;
+import Models.User;
 import Services.PatientsService;
 import WindowsBackground.PatientSearch.PatientSearchBackgroundAbove;
 import WindowsBackground.PatientSearch.PatientSearchBackgroundBelow;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.sun.xml.internal.ws.util.StringUtils;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
@@ -16,6 +21,11 @@ import javax.swing.table.DefaultTableModel;
  * @author JD101
  */
 public class PatientSearch extends javax.swing.JFrame {
+
+    //  Variables and Objects
+    //  ------------------------------------------------------------------------
+    private User user;
+    //  ------------------------------------------------------------------------
 
     /**
      * Creates new form PatientSearch
@@ -27,6 +37,31 @@ public class PatientSearch extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         initTablePatientsTable();
         textFieldSearchBar.requestFocus();
+    }
+
+    /**
+     * Crea un nuevo formulario PatientSearch.
+     *
+     * @param window Recibe un parámetro tipo JFrame para localizarse de acuerdo
+     * a este.
+     * @param user Recibe un parámetro de tipo User para mantener un control de
+     * los permisos de usuario.
+     * @throws java.sql.SQLException
+     */
+    public PatientSearch(JFrame window, User user) throws SQLException {
+
+        initComponents();
+        setLocationRelativeTo(window);
+        initTablePatientsTable();
+        lockComponents();
+        textFieldSearchBar.requestFocus();
+
+        this.user = user;
+
+        if (this.user.getPermissions() != 1) {
+            buttonRemove.setVisible(false);
+        }
+
     }
 
     /**
@@ -42,11 +77,14 @@ public class PatientSearch extends javax.swing.JFrame {
         jPanel2 = new PatientSearchBackgroundAbove();
         comboBoxSearchFilter = new javax.swing.JComboBox<>();
         textFieldSearchBar = new javax.swing.JTextField();
-        buttonSearchButton = new javax.swing.JButton();
+        buttonSearch = new javax.swing.JButton();
         labelSearchFilter = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablePatientsTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        buttonExit = new javax.swing.JButton();
+        buttonRemove = new javax.swing.JButton();
+        buttonModify = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Búsqueda de pacientes");
@@ -59,6 +97,11 @@ public class PatientSearch extends javax.swing.JFrame {
 
         comboBoxSearchFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cédula", "Nombre", "Primer apellido", "Segundo apellido", "Nacionalidad", "Estado de la prueba" }));
         comboBoxSearchFilter.setPreferredSize(new java.awt.Dimension(70, 26));
+        comboBoxSearchFilter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comboBoxSearchFilterMouseClicked(evt);
+            }
+        });
         comboBoxSearchFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxSearchFilterActionPerformed(evt);
@@ -66,22 +109,28 @@ public class PatientSearch extends javax.swing.JFrame {
         });
 
         textFieldSearchBar.setMinimumSize(new java.awt.Dimension(70, 26));
+        textFieldSearchBar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                textFieldSearchBarMouseClicked(evt);
+            }
+        });
         textFieldSearchBar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldSearchBarActionPerformed(evt);
             }
         });
 
-        buttonSearchButton.setForeground(new java.awt.Color(255, 255, 255));
-        buttonSearchButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonSearchButton.png"))); // NOI18N
-        buttonSearchButton.setText("Buscar");
-        buttonSearchButton.setBorderPainted(false);
-        buttonSearchButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        buttonSearchButton.setPreferredSize(new java.awt.Dimension(80, 26));
-        buttonSearchButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonSearchButtonRollOver.png"))); // NOI18N
-        buttonSearchButton.addActionListener(new java.awt.event.ActionListener() {
+        buttonSearch.setFont(new java.awt.Font("Nirmala UI", 1, 12)); // NOI18N
+        buttonSearch.setForeground(new java.awt.Color(255, 255, 255));
+        buttonSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonSearchButton.png"))); // NOI18N
+        buttonSearch.setText("Buscar");
+        buttonSearch.setBorder(null);
+        buttonSearch.setBorderPainted(false);
+        buttonSearch.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonSearch.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonSearchButtonRollOver.png"))); // NOI18N
+        buttonSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonSearchButtonActionPerformed(evt);
+                buttonSearchActionPerformed(evt);
             }
         });
 
@@ -100,29 +149,88 @@ public class PatientSearch extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablePatientsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablePatientsTableMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablePatientsTable);
 
         jLabel1.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        jLabel1.setText("Busqueda de pacientes");
+        jLabel1.setText("Búsqueda de pacientes");
+
+        buttonExit.setFont(new java.awt.Font("Nirmala UI", 1, 12)); // NOI18N
+        buttonExit.setForeground(new java.awt.Color(255, 255, 255));
+        buttonExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonRemoveModifyExit.png"))); // NOI18N
+        buttonExit.setText("Atras");
+        buttonExit.setBorder(null);
+        buttonExit.setBorderPainted(false);
+        buttonExit.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonRemoveModifyExitDisabled.png"))); // NOI18N
+        buttonExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonExit.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonRemoveModifyExitRollOver.png"))); // NOI18N
+        buttonExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonExitActionPerformed(evt);
+            }
+        });
+
+        buttonRemove.setFont(new java.awt.Font("Nirmala UI", 1, 12)); // NOI18N
+        buttonRemove.setForeground(new java.awt.Color(255, 255, 255));
+        buttonRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonRemoveModifyExit.png"))); // NOI18N
+        buttonRemove.setText("Eliminar");
+        buttonRemove.setBorder(null);
+        buttonRemove.setBorderPainted(false);
+        buttonRemove.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonRemoveModifyExitDisabled.png"))); // NOI18N
+        buttonRemove.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonRemove.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonRemoveModifyExitRollOver.png"))); // NOI18N
+        buttonRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRemoveActionPerformed(evt);
+            }
+        });
+
+        buttonModify.setFont(new java.awt.Font("Nirmala UI", 1, 12)); // NOI18N
+        buttonModify.setForeground(new java.awt.Color(255, 255, 255));
+        buttonModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonRemoveModifyExit.png"))); // NOI18N
+        buttonModify.setText("Modificar");
+        buttonModify.setBorder(null);
+        buttonModify.setBorderPainted(false);
+        buttonModify.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonRemoveModifyExitDisabled.png"))); // NOI18N
+        buttonModify.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonModify.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonRemoveModifyExitRollOver.png"))); // NOI18N
+        buttonModify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonModifyActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 970, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(labelSearchFilter)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboBoxSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(textFieldSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(buttonSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(buttonRemove)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonModify)
+                        .addGap(38, 38, 38)
+                        .addComponent(buttonExit))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 970, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(labelSearchFilter)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboBoxSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(textFieldSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(buttonSearch)))))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -132,12 +240,17 @@ public class PatientSearch extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboBoxSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textFieldSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonSearch)
                     .addComponent(labelSearchFilter)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonModify)
+                    .addComponent(buttonExit)
+                    .addComponent(buttonRemove))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -174,10 +287,58 @@ public class PatientSearch extends javax.swing.JFrame {
     //  Own Code
     //  ------------------------------------------------------------------------
     /**
+     * Bloquea los botones de modificar y eliminar.
+     */
+    private void lockComponents() {
+
+        this.buttonRemove.setEnabled(false);
+        this.buttonModify.setEnabled(false);
+
+    }
+
+    /**
+     * Desbloquea los botones de modificar y eliminar.
+     */
+    private void unlockComponents() {
+
+        this.buttonRemove.setEnabled(true);
+        this.buttonModify.setEnabled(true);
+
+    }
+
+    /**
+     * Crea un objeto de tipo Patient y rellena los atributos de este de acuerdo
+     * con la fila que hay seleccionada en la tabla.
+     *
+     * @return Retorna un objeto de tipo Patient con sus atributos llenos.
+     */
+    private Patient getPatientData() {
+
+        Patient patient = new Patient();
+
+        int rowTable = tablePatientsTable.getSelectedRow();
+
+        patient.setIdPatient(tablePatientsTable.getValueAt(rowTable, 0).toString());
+        patient.setNamePatient(tablePatientsTable.getValueAt(rowTable, 1).toString());
+        patient.setFirstLastName(tablePatientsTable.getValueAt(rowTable, 2).toString());
+        patient.setSecondLastName(tablePatientsTable.getValueAt(rowTable, 3).toString());
+        patient.setNationality(tablePatientsTable.getValueAt(rowTable, 4).toString());
+        patient.setBirthdate(tablePatientsTable.getValueAt(rowTable, 5).toString());
+        patient.setTestDay(tablePatientsTable.getValueAt(rowTable, 6).toString());
+        patient.setTestStatus(tablePatientsTable.getValueAt(rowTable, 7).toString());
+        patient.setPhoneNumber(tablePatientsTable.getValueAt(rowTable, 8).toString());
+        patient.setAddress(tablePatientsTable.getValueAt(rowTable, 9).toString());
+        patient.setObservations(tablePatientsTable.getValueAt(rowTable, 10).toString());
+
+        return patient;
+
+    }
+
+    /**
      * Inicializa la tabla con todos los datos que contiene la tabla patient.
-     * @throws SQLException 
-     * Controla los errores tipo SQL que se pudieran dar por la consulta de la 
-     * información a la base de datos.
+     *
+     * @throws SQLException Controla los errores tipo SQL que se pudieran dar
+     * por la consulta de la información a la base de datos.
      */
     private void initTablePatientsTable() throws SQLException {
 
@@ -186,86 +347,104 @@ public class PatientSearch extends javax.swing.JFrame {
         tablePatientsTable.setModel(model);
 
     }
-    
+
     /**
      * Establece la tabla según los valores ingresados.
-     * @param filterPosition
-     * Indica la columna donde se va a buscar el texto a buscar.
-     * @param searchText
-     * Indica el texto a buscar en la tabla ingresada.
-     * @throws SQLException 
-     * Controla los errores tipo SQL que se pudieran dar por la consulta de la 
-     * 
+     *
+     * @param filterPosition Indica la columna donde se va a buscar el texto a
+     * buscar.
+     * @param searchText Indica el texto a buscar en la tabla ingresada.
+     * @throws SQLException Controla los errores tipo SQL que se pudieran dar
+     * por la consulta de la
+     *
      */
     private void setTableByTheFilter(int filterPosition, String searchText) throws SQLException {
-    
+
         PatientsService patientsService = new PatientsService();
         DefaultTableModel model = null;
-        
-        switch(filterPosition){
-        
+
+        switch (filterPosition) {
+
             case 0:
                 model = patientsService.showInformationBy("id_patient", searchText);
                 break;
-                
+
             case 1:
                 model = patientsService.showInformationBy("name_patient", searchText);
                 break;
-                
+
             case 2:
                 model = patientsService.showInformationBy("first_lastname_patient", searchText);
                 break;
-                
+
             case 3:
                 model = patientsService.showInformationBy("second_lastname_patient", searchText);
                 break;
-                
+
             case 4:
                 model = patientsService.showInformationBy("nationality_patient", searchText);
                 break;
-                
+
             case 5:
                 model = patientsService.showInformationBy("teststatus_patient", searchText);
                 break;
-                
+
         }
-        
+
         tablePatientsTable.setModel(model);
-        
+
     }
 
     /**
-     * Establece la tabla con toda la información de la base de datos si el 
-     * campo del texto a buscar está vacío. Si el texto a buscar no está vacío 
-     * toma el filtro para poder decidir en cual tabla buscar el texto.
-     * @param evt 
+     * Crea un objeto de tipo Patient y rellena sus atributos con el método
+     * getPatientData(), luego realiza la eliminación del registro.
+     *
+     * @throws SQLException Controla los errores tipo SQL que se pudieran dar
+     * por la eliminación del registro de la base de datos.
      */
-    private void buttonSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchButtonActionPerformed
+    private void removePatient() throws SQLException {
+
+        PatientsService patientsService = new PatientsService();
+        Patient patient = getPatientData();
+        patientsService.deletePatient(patient);
+
+    }
+
+    /**
+     * Establece la tabla con toda la información de la base de datos si el
+     * campo del texto a buscar está vacío. Si el texto a buscar no está vacío
+     * toma el filtro para poder decidir en cual tabla buscar el texto.
+     *
+     * @param evt
+     */
+    private void buttonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchActionPerformed
+
+        lockComponents();
 
         String searchText = StringUtils.capitalize(textFieldSearchBar.getText());
         int filterPosition = comboBoxSearchFilter.getSelectedIndex();
-        
+
         textFieldSearchBar.setText(searchText);
-        
+
         if (textFieldSearchBar.getText().equals("")) {
-            
+
             try {
                 initTablePatientsTable();
             } catch (SQLException ex) {
                 Logger.getLogger(PatientSearch.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-        }else{
-            
+
+        } else {
+
             try {
                 setTableByTheFilter(filterPosition, searchText);
             } catch (SQLException ex) {
                 Logger.getLogger(PatientSearch.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
 
-    }//GEN-LAST:event_buttonSearchButtonActionPerformed
+    }//GEN-LAST:event_buttonSearchActionPerformed
 
     private void textFieldSearchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldSearchBarActionPerformed
         textFieldSearchBar.transferFocus();
@@ -274,8 +453,102 @@ public class PatientSearch extends javax.swing.JFrame {
     private void comboBoxSearchFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSearchFilterActionPerformed
         comboBoxSearchFilter.transferFocus();
     }//GEN-LAST:event_comboBoxSearchFilterActionPerformed
+
+    /**
+     * Cierra esta ventana y vuelve al menú.
+     *
+     * @param evt
+     */
+    private void buttonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExitActionPerformed
+
+        this.dispose();
+
+        Menu formMenu = new Menu(this, this.user);
+        formMenu.setVisible(true);
+
+    }//GEN-LAST:event_buttonExitActionPerformed
+
+    /**
+     * Lanza un mensaje de confirmación al presionar el botón eliminar para
+     * eliminar o no el registro seleccionado de la tabla. Al eliminar el
+     * registro lanza la confirmación y en el caso contrario también.
+     *
+     * @param evt
+     */
+    private void buttonRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveActionPerformed
+
+        int option = JOptionPane.showConfirmDialog(this,
+                "Desea eliminar al paciente?", "",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.YES_NO_OPTION);
+
+        if (option == 0) {
+
+            try {
+                removePatient();
+            } catch (SQLException ex) {
+                Logger.getLogger(PatientSearch.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Paciente no eliminado.");
+        }
+
+    }//GEN-LAST:event_buttonRemoveActionPerformed
+
+    /**
+     * Crea un objeto de tipo Patient y rellena sus atributos con el método
+     * getPatientData(), luego instancia un formulario de tipo PatientModify
+     * pasandole este formulario y el objeto creado al constructor, al
+     * formulario creado lo hace visible.
+     *
+     * @param evt
+     */
+    private void buttonModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModifyActionPerformed
+
+        try {
+
+            Patient patient = getPatientData();
+
+            PatientModify formPatientModify = new PatientModify(this, patient);
+            formPatientModify.setVisible(true);
+
+        } catch (ParseException ex) {
+            Logger.getLogger(PatientSearch.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_buttonModifyActionPerformed
+
+    /**
+     * Desbloquea los botones modificar y eliminar cuando presiona alguna celda
+     * la tabla.
+     *
+     * @param evt
+     */
+    private void tablePatientsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePatientsTableMouseClicked
+        unlockComponents();
+    }//GEN-LAST:event_tablePatientsTableMouseClicked
+
+    /**
+     * Bloquea los botones modificar y eliminar cuando presiona la selección de
+     * filtro de la búsqueda.
+     *
+     * @param evt
+     */
+    private void comboBoxSearchFilterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBoxSearchFilterMouseClicked
+        lockComponents();
+    }//GEN-LAST:event_comboBoxSearchFilterMouseClicked
+
+    /**
+     * Bloquea los botones modificar y eliminar cuando presiona la barra de
+     * búsqueda.
+     *
+     * @param evt
+     */
+    private void textFieldSearchBarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textFieldSearchBarMouseClicked
+        lockComponents();
+    }//GEN-LAST:event_textFieldSearchBarMouseClicked
     //  ------------------------------------------------------------------------
-    
+
     /**
      * @param args the command line arguments
      */
@@ -305,7 +578,10 @@ public class PatientSearch extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonSearchButton;
+    private javax.swing.JButton buttonExit;
+    private javax.swing.JButton buttonModify;
+    private javax.swing.JButton buttonRemove;
+    private javax.swing.JButton buttonSearch;
     private javax.swing.JComboBox<String> comboBoxSearchFilter;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
@@ -316,4 +592,3 @@ public class PatientSearch extends javax.swing.JFrame {
     private javax.swing.JTextField textFieldSearchBar;
     // End of variables declaration//GEN-END:variables
 }
-

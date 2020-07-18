@@ -1,6 +1,7 @@
 package Windows;
 
 import Models.Patient;
+import Models.User;
 import Services.PatientsService;
 import static Utilities.ValidateForm.manipulateString;
 import WindowsBackground.PatientRegistry.PatientRegistryBackgroundAbove;
@@ -10,6 +11,7 @@ import com.toedter.calendar.JTextFieldDateEditor;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -20,6 +22,11 @@ import javax.swing.text.JTextComponent;
  */
 public class PatientRegistry extends javax.swing.JFrame {
 
+    //  Variables and Objects
+    //  ------------------------------------------------------------------------
+    private User user;
+    //  ------------------------------------------------------------------------
+
     /**
      * Creates new form PatientRegistry
      */
@@ -29,6 +36,24 @@ public class PatientRegistry extends javax.swing.JFrame {
         cleanComponents();
         lockComponents();
         lockDateEditor();
+    }
+
+    /**
+     * Crea un nuevo formulario PatientRegistry.
+     *
+     * @param window Recibe un parámetro tipo JFrame para localizarse de acuerdo
+     * a este.
+     * @param user Recibe un parámetro de tipo User para mantener un control de
+     * los permisos de usuario.
+     */
+    public PatientRegistry(JFrame window, User user) {
+        initComponents();
+        setLocationRelativeTo(window);
+        cleanComponents();
+        lockComponents();
+        lockDateEditor();
+
+        this.user = user;
     }
 
     /**
@@ -59,7 +84,6 @@ public class PatientRegistry extends javax.swing.JFrame {
         textFieldNamePatient = new javax.swing.JTextField();
         textFieldFirstLastName = new javax.swing.JTextField();
         textFieldSecondLastName = new javax.swing.JTextField();
-        textFieldNationality = new javax.swing.JTextField();
         textFieldPhoneNumber = new javax.swing.JTextField();
         textFieldAddress = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -70,8 +94,11 @@ public class PatientRegistry extends javax.swing.JFrame {
         buttonAdd = new javax.swing.JButton();
         buttonCancel = new javax.swing.JButton();
         buttonNew = new javax.swing.JButton();
+        buttonExit = new javax.swing.JButton();
+        comboBoxNationality = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Registro de Pacientes");
         setMinimumSize(new java.awt.Dimension(820, 700));
         setPreferredSize(new java.awt.Dimension(820, 700));
         setResizable(false);
@@ -170,13 +197,6 @@ public class PatientRegistry extends javax.swing.JFrame {
             }
         });
 
-        textFieldNationality.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
-        textFieldNationality.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldNationalityActionPerformed(evt);
-            }
-        });
-
         textFieldPhoneNumber.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
         textFieldPhoneNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -255,51 +275,72 @@ public class PatientRegistry extends javax.swing.JFrame {
             }
         });
 
+        buttonExit.setFont(new java.awt.Font("Nirmala UI", 1, 12)); // NOI18N
+        buttonExit.setForeground(new java.awt.Color(255, 255, 255));
+        buttonExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientRegistry/buttonCancel.png"))); // NOI18N
+        buttonExit.setText("Salir");
+        buttonExit.setBorder(null);
+        buttonExit.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientRegistry/buttonCancelDisabledIcon.png"))); // NOI18N
+        buttonExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonExit.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientRegistry/buttonCancelRollOver.png"))); // NOI18N
+        buttonExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonExitActionPerformed(evt);
+            }
+        });
+
+        comboBoxNationality.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
+        comboBoxNationality.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Afganistán", "Albania", "Alemania", "Andorra", "Angola", "Antigua y Barbuda", "Arabia Saudita", "Argelia", "Argentina", "Armenia", "Australia", "Austria", "Azerbaiyán", "Bahamas", "Bangladés", "Barbados", "Baréin", "Bélgica", "Belice", "Benín", "Bielorrusia", "Birmania", "Bolivia", "Bosnia y Herzegovina", "Botsuana", "Brasil", "Brunéi", "Bulgaria", "Burkina Faso", "Burundi", "Bután", "Cabo Verde", "Camboya", "Camerún", "Canadá", "Catar", "Chad", "Chile", "China", "Chipre", "Ciudad del Vaticano", "Colombia", "Comoras", "Corea del Norte", "Corea del Sur", "Costa de Marfil", "Costa Rica", "Croacia", "Cuba", "Dinamarca", "Dominica", "Ecuador", "Egipto", "El Salvador", "Emiratos Árabes Unidos", "Eritrea", "Eslovaquia", "Eslovenia", "España", "Estados Unidos", "Estonia", "Etiopía", "Filipinas", "Finlandia", "Fiyi", "Francia", "Gabón", "Gambia", "Georgia", "Ghana", "Granada", "Grecia", "Guatemala", "Guyana", "Guinea", "Guinea ecuatorial", "Guinea-Bisáu", "Haití", "Honduras", "Hungría", "India", "Indonesia", "Irak", "Irán", "Irlanda", "Islandia", "Islas Marshall", "Islas Salomón", "Israel", "Italia", "Jamaica", "Japón", "Jordania", "Kazajistán", "Kenia", "Kirguistán", "Kiribati", "Kuwait", "Laos", "Lesoto", "Letonia", "Líbano", "Liberia", "Libia", "Liechtenstein", "Lituania", "Luxemburgo", "Macedonia del Norte", "Madagascar", "Malasia", "Malaui", "Maldivas", "Malí", "Malta", "Marruecos", "Mauricio", "Mauritania", "México", "Micronesia", "Moldavia", "Mónaco", "Mongolia", "Montenegro", "Mozambique", "Namibia", "Nauru", "Nepal", "Nicaragua", "Níger", "Nigeria", "Noruega", "Nueva Zelanda", "Omán", "Países Bajos", "Pakistán", "Palaos", "Panamá", "Papúa Nueva Guinea", "Paraguay", "Perú", "Polonia", "Portugal", "Reino Unido", "República Centroafricana", "República Checa", "República del Congo", "República Democrática del Congo", "República Dominicana", "Ruanda", "Rumanía", "Rusia", "Samoa", "San Cristóbal y Nieves", "San Marino", "San Vicente y las Granadinas", "Santa Lucía", "Santo Tomé y Príncipe", "Senegal", "Serbia", "Seychelles", "Sierra Leona", "Singapur", "Siria", "Somalia", "Sri Lanka", "Suazilandia", "Sudáfrica", "Sudán", "Sudán del Sur", "Suecia", "Suiza", "Surinam", "Tailandia", "Tanzania", "Tayikistán", "Timor Oriental", "Togo", "Tonga", "Trinidad y Tobago", "Túnez", "Turkmenistán", "Turquía", "Tuvalu", "Ucrania", "Uganda", "Uruguay", "Uzbekistán", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Yibuti", "Zambia", "Zimbabue" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(labelPhoneNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(labelAddress)
-                        .addComponent(labelObservations)
-                        .addComponent(labelTestDay, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(labelTestStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(labelIdPatient)
-                    .addComponent(labelNamePatient)
-                    .addComponent(labelFirstLastName)
-                    .addComponent(labelSecondLastName)
-                    .addComponent(labelNationality)
-                    .addComponent(labelBirthdate))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dateChooserTestDay, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(textFieldSecondLastName)
-                                .addComponent(textFieldFirstLastName)
-                                .addComponent(textFieldNamePatient)
-                                .addComponent(textFieldIdPatient)
-                                .addComponent(dateChooserBirthdate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(textFieldNationality, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                                .addComponent(labelPhoneNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(labelAddress)
+                                .addComponent(labelObservations)
+                                .addComponent(labelTestDay, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(labelTestStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(labelIdPatient)
+                            .addComponent(labelNamePatient)
+                            .addComponent(labelFirstLastName)
+                            .addComponent(labelSecondLastName)
+                            .addComponent(labelNationality)
+                            .addComponent(labelBirthdate))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(buttonNew)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(buttonAdd)
-                                .addGap(24, 24, 24)
-                                .addComponent(buttonCancel))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(textFieldAddress, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(comboBoxTestStatus, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(textFieldPhoneNumber, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(19, 19, 19)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dateChooserTestDay, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(comboBoxNationality, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(textFieldSecondLastName, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(textFieldFirstLastName, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(textFieldNamePatient, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(textFieldIdPatient, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(dateChooserBirthdate, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textFieldAddress, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboBoxTestStatus, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(textFieldPhoneNumber, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(buttonNew)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(buttonAdd)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonCancel)
+                        .addGap(24, 24, 24)
+                        .addComponent(buttonExit)
+                        .addGap(2, 2, 2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -324,7 +365,7 @@ public class PatientRegistry extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelNationality)
-                    .addComponent(textFieldNationality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboBoxNationality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelBirthdate)
@@ -351,10 +392,11 @@ public class PatientRegistry extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonCancel, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(buttonExit, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(buttonAdd)
-                        .addComponent(buttonNew)))
+                        .addComponent(buttonNew)
+                        .addComponent(buttonCancel)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -363,7 +405,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(148, 148, 148))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -404,7 +446,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         textFieldNamePatient.setText("");
         textFieldFirstLastName.setText("");
         textFieldSecondLastName.setText("");
-        textFieldNationality.setText("");
+        comboBoxNationality.setSelectedIndex(0);
         dateChooserBirthdate.setCalendar(null);
         dateChooserTestDay.setCalendar(null);
         comboBoxTestStatus.setSelectedIndex(0);
@@ -423,7 +465,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         textFieldNamePatient.setEnabled(true);
         textFieldFirstLastName.setEnabled(true);
         textFieldSecondLastName.setEnabled(true);
-        textFieldNationality.setEnabled(true);
+        comboBoxNationality.setEnabled(true);
         dateChooserBirthdate.setEnabled(true);
         dateChooserTestDay.setEnabled(true);
         comboBoxTestStatus.setEnabled(true);
@@ -445,7 +487,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         textFieldNamePatient.setEnabled(false);
         textFieldFirstLastName.setEnabled(false);
         textFieldSecondLastName.setEnabled(false);
-        textFieldNationality.setEnabled(false);
+        comboBoxNationality.setEnabled(false);
         dateChooserBirthdate.setEnabled(false);
         dateChooserTestDay.setEnabled(false);
         comboBoxTestStatus.setEnabled(false);
@@ -469,13 +511,13 @@ public class PatientRegistry extends javax.swing.JFrame {
     }
 
     /**
-     * Toma los valores de los componentes y los asigna a un objeto tipo 
-     * Patient, luego hace las comprobaciones para poder insertar los datos, si 
-     * todo esta bien con el tipo de datos procede a insertar estos, limpiar los 
+     * Toma los valores de los componentes y los asigna a un objeto tipo
+     * Patient, luego hace las comprobaciones para poder insertar los datos, si
+     * todo esta bien con el tipo de datos procede a insertar estos, limpiar los
      * componentes y volver a bloquearlos.
-     * @throws SQLException
-     * Controla los errores tipo SQL que se pudieran dar por el ingreso de 
-     * información a la base de datos.
+     *
+     * @throws SQLException Controla los errores tipo SQL que se pudieran dar
+     * por el ingreso de información a la base de datos.
      */
     private void insertPatient() throws SQLException {
 
@@ -486,7 +528,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         patient.setNamePatient(manipulateString(textFieldNamePatient.getText()));
         patient.setFirstLastName(manipulateString(textFieldFirstLastName.getText()));
         patient.setSecondLastName(manipulateString(textFieldSecondLastName.getText()));
-        patient.setNationality(manipulateString(textFieldNationality.getText()));
+        patient.setNationality(comboBoxNationality.getSelectedItem().toString());
         patient.setBirthdate(((JTextComponent) dateChooserBirthdate.getDateEditor().getUiComponent()).getText());
         patient.setTestDay(((JTextComponent) dateChooserTestDay.getDateEditor().getUiComponent()).getText());
         patient.setTestStatus(comboBoxTestStatus.getSelectedItem().toString());
@@ -539,7 +581,8 @@ public class PatientRegistry extends javax.swing.JFrame {
 
     /**
      * Invoca al método insertPatient().
-     * @param evt 
+     *
+     * @param evt
      */
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
 
@@ -553,7 +596,8 @@ public class PatientRegistry extends javax.swing.JFrame {
 
     /**
      * Desbloquea los componentes y bloquea el editor de fecha.
-     * @param evt 
+     *
+     * @param evt
      */
     private void buttonNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNewActionPerformed
 
@@ -565,7 +609,8 @@ public class PatientRegistry extends javax.swing.JFrame {
 
     /**
      * Limpia y bloquea los componentes.
-     * @param evt 
+     *
+     * @param evt
      */
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
 
@@ -582,10 +627,6 @@ public class PatientRegistry extends javax.swing.JFrame {
         textFieldSecondLastName.transferFocus();
     }//GEN-LAST:event_textFieldSecondLastNameActionPerformed
 
-    private void textFieldNationalityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldNationalityActionPerformed
-        textFieldNationality.transferFocus();
-    }//GEN-LAST:event_textFieldNationalityActionPerformed
-
     private void comboBoxTestStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxTestStatusActionPerformed
         comboBoxTestStatus.transferFocus();
     }//GEN-LAST:event_comboBoxTestStatusActionPerformed
@@ -593,6 +634,19 @@ public class PatientRegistry extends javax.swing.JFrame {
     private void textFieldPhoneNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldPhoneNumberActionPerformed
         textFieldPhoneNumber.transferFocus();
     }//GEN-LAST:event_textFieldPhoneNumberActionPerformed
+
+    /**
+     * Cierra el formulario y crea uno nuevo tipo Menu.
+     * @param evt 
+     */
+    private void buttonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExitActionPerformed
+
+        this.dispose();
+
+        Menu formMenu = new Menu(this, this.user);
+        formMenu.setVisible(true);
+
+    }//GEN-LAST:event_buttonExitActionPerformed
     //  ------------------------------------------------------------------------
 
     /**
@@ -622,7 +676,9 @@ public class PatientRegistry extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAdd;
     private javax.swing.JButton buttonCancel;
+    private javax.swing.JButton buttonExit;
     private javax.swing.JButton buttonNew;
+    private javax.swing.JComboBox<String> comboBoxNationality;
     private javax.swing.JComboBox<String> comboBoxTestStatus;
     private com.toedter.calendar.JDateChooser dateChooserBirthdate;
     private com.toedter.calendar.JDateChooser dateChooserTestDay;
@@ -647,7 +703,6 @@ public class PatientRegistry extends javax.swing.JFrame {
     private javax.swing.JTextField textFieldFirstLastName;
     private javax.swing.JTextField textFieldIdPatient;
     private javax.swing.JTextField textFieldNamePatient;
-    private javax.swing.JTextField textFieldNationality;
     private javax.swing.JTextField textFieldPhoneNumber;
     private javax.swing.JTextField textFieldSecondLastName;
     // End of variables declaration//GEN-END:variables

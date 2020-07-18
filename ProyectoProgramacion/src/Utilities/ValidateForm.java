@@ -25,6 +25,7 @@ public class ValidateForm {
             char character = string.charAt(i);
             int characterValueASCII = (int) character;
 
+            //  Lista de caracteres.
             //  https://www.ajpdsoft.com/modules.php?name=News&file=article&sid=195#:~:text=Tambi%C3%A9n%20conocida%20como%20Alfabeto%20Latino,en%20total%20utilizan%208%20bits.
             if (characterValueASCII < 48 || characterValueASCII > 57) {
                 return false;
@@ -94,6 +95,33 @@ public class ValidateForm {
 
     }
 
+    /**
+     * Valida que el valor ingresado sea un país (incluye letras del abecedario 
+     * en español).
+     * @param string
+     * Toma un valor de tipo String para realizar las validaciones necesarias.
+     * @return 
+     */
+    public static boolean isNationality(String string) {
+
+        for (int i = 0; i < string.length(); i++) {
+
+            char character = string.toLowerCase().charAt(i);
+            int characterValueASCII = (int) character;
+
+            if ((characterValueASCII < 97 || characterValueASCII > 122)
+                    && (characterValueASCII < 224 || characterValueASCII > 246)
+                    && (characterValueASCII < 249 || characterValueASCII > 252)
+                    && characterValueASCII != 32) {
+                return false;
+            }
+
+        }
+
+        return true;
+
+    }
+    
     /**
      * Valida que el valor ingresado sea un número de teléfono(incluyendo los 
      * caracteres “+”, “ “).

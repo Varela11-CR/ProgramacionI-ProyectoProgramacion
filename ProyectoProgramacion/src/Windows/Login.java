@@ -7,6 +7,7 @@ import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -24,6 +25,17 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+    
+    /**
+     * Crea un nuevo formulario Login.
+     *
+     * @param window Recibe un parámetro tipo JFrame para localizarse de acuerdo
+     * a este.s
+     */
+    public Login(JFrame window) {
+        initComponents();
+        setLocationRelativeTo(window);
     }
 
     /**
@@ -206,8 +218,8 @@ public class Login extends javax.swing.JFrame {
 
                     this.dispose();
 
-                    PatientRegistry formPatientRegistry = new PatientRegistry();
-                    formPatientRegistry.setVisible(true);
+                    Menu formMenu = new Menu(this, user);
+                    formMenu.setVisible(true);
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Datos incorrectos.");
