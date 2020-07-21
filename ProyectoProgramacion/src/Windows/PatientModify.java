@@ -8,8 +8,7 @@ package Windows;
 import Models.Patient;
 import Services.PatientsService;
 import static Utilities.ValidateForm.manipulateString;
-import WindowsBackground.PatientModify.PatientModifyBackgroundAbove;
-import WindowsBackground.PatientModify.PatientModifyBackgroundBelow;
+import WindowsBackground.CustomPanel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.sql.SQLException;
@@ -73,8 +72,8 @@ public class PatientModify extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new PatientModifyBackgroundBelow();
-        jPanel2 = new PatientModifyBackgroundAbove();
+        jPanel1 = new CustomPanel("/Images/PatientModify/backgroundBelow.png");
+        jPanel2 = new CustomPanel("/Images/PatientModify/background.png");
         labelIdPatient = new javax.swing.JLabel();
         textFieldIdPatient = new javax.swing.JTextField();
         labelNamePatient = new javax.swing.JLabel();
@@ -217,7 +216,6 @@ public class PatientModify extends javax.swing.JFrame {
         buttonModify.setText("Aceptar");
         buttonModify.setBorder(null);
         buttonModify.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        buttonModify.setPreferredSize(new java.awt.Dimension(80, 36));
         buttonModify.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientModify/buttonModifyRollOver.png"))); // NOI18N
         buttonModify.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,7 +232,6 @@ public class PatientModify extends javax.swing.JFrame {
         buttonCancel.setText("Cancelar");
         buttonCancel.setBorder(null);
         buttonCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        buttonCancel.setPreferredSize(new java.awt.Dimension(90, 36));
         buttonCancel.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientModify/buttonCancelRollOver.png"))); // NOI18N
         buttonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -278,9 +275,9 @@ public class PatientModify extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(buttonModify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(buttonModify)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buttonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(buttonCancel))
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(textFieldAddress, javax.swing.GroupLayout.Alignment.LEADING)
@@ -337,8 +334,8 @@ public class PatientModify extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonModify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonCancel)
+                    .addComponent(buttonModify))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 

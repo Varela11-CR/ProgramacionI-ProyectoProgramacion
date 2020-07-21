@@ -2,7 +2,7 @@ package Windows;
 
 import Models.User;
 import Services.UsersService;
-import WindowsBackground.Login.LoginBackgroundBelow;
+import WindowsBackground.CustomPanel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import org.apache.commons.codec.cli.Digest;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -25,8 +24,10 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     public Login() {
+        
         initComponents();
         setLocationRelativeTo(null);
+        this.getRootPane().setDefaultButton(buttonLogin);
     }
     
     /**
@@ -49,8 +50,8 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new LoginBackgroundBelow();
-        jPanel1 = new WindowsBackground.Login.LoginBackgroundAbove();
+        jPanel2 = new CustomPanel("/Images/Login/backgroundBelow.png");
+        jPanel1 = new CustomPanel("/Images/Login/background.png");
         buttonLogin = new javax.swing.JButton();
         passwordFieldPassword = new javax.swing.JPasswordField();
         labelPassword = new javax.swing.JLabel();

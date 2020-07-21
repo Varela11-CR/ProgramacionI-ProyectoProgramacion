@@ -3,8 +3,7 @@ package Windows;
 import Models.Patient;
 import Models.User;
 import Services.PatientsService;
-import WindowsBackground.PatientSearch.PatientSearchBackgroundAbove;
-import WindowsBackground.PatientSearch.PatientSearchBackgroundBelow;
+import WindowsBackground.CustomPanel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import org.apache.commons.lang3.StringUtils;
 import java.sql.SQLException;
@@ -73,8 +72,8 @@ public class PatientSearch extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new PatientSearchBackgroundBelow();
-        jPanel2 = new PatientSearchBackgroundAbove();
+        jPanel1 = new CustomPanel("/Images/PatientSearch/backgroundBelow.png");
+        jPanel2 = new CustomPanel("/Images/PatientSearch/background.png");
         comboBoxSearchFilter = new javax.swing.JComboBox<>();
         textFieldSearchBar = new javax.swing.JTextField();
         buttonSearch = new javax.swing.JButton();

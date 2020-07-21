@@ -4,8 +4,7 @@ import Models.Patient;
 import Models.User;
 import Services.PatientsService;
 import static Utilities.ValidateForm.manipulateString;
-import WindowsBackground.PatientRegistry.PatientRegistryBackgroundAbove;
-import WindowsBackground.PatientRegistry.PatientRegistryBackgroundBelow;
+import WindowsBackground.CustomPanel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.sql.SQLException;
@@ -65,10 +64,10 @@ public class PatientRegistry extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel3 = new PatientRegistryBackgroundBelow();
+        jPanel3 = new CustomPanel("/Images/PatientRegistry/backgroundBelow.png");
         jPanel2 = new javax.swing.JPanel();
         patientRegistryLabel = new javax.swing.JLabel();
-        jPanel1 = new PatientRegistryBackgroundAbove();
+        jPanel1 = new CustomPanel("/Images/PatientRegistry/background.png");
         labelIdPatient = new javax.swing.JLabel();
         labelNamePatient = new javax.swing.JLabel();
         labelFirstLastName = new javax.swing.JLabel();

@@ -6,8 +6,7 @@
 package Windows;
 
 import Models.User;
-import WindowsBackground.Menu.MenuBackgroundAbove;
-import WindowsBackground.Menu.MenuBackgroundBelow;
+import WindowsBackground.CustomPanel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -65,8 +64,8 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new MenuBackgroundBelow();
-        jPanel2 = new MenuBackgroundAbove();
+        jPanel1 = new CustomPanel("/Images/Menu/backgroundBelow.png");
+        jPanel2 = new CustomPanel("/Images/Menu/background.png");
         buttonPatientRegistry = new javax.swing.JButton();
         buttonStatistics = new javax.swing.JButton();
         buttonPatientSearch = new javax.swing.JButton();
@@ -108,10 +107,10 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        buttonUserRegistry.setFont(new java.awt.Font("Nirmala UI", 1, 12)); // NOI18N
+        buttonUserRegistry.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
         buttonUserRegistry.setForeground(new java.awt.Color(255, 255, 255));
         buttonUserRegistry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Menu/exit.png"))); // NOI18N
-        buttonUserRegistry.setText("Ingresar usuarios");
+        buttonUserRegistry.setText("Usuarios");
         buttonUserRegistry.setBorder(null);
         buttonUserRegistry.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonUserRegistry.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Menu/exitRollOver.png"))); // NOI18N
@@ -137,40 +136,39 @@ public class Menu extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addGap(127, 127, 127)
+                .addComponent(buttonPatientRegistry)
+                .addGap(18, 18, 18)
+                .addComponent(buttonPatientSearch)
+                .addGap(18, 18, 18)
+                .addComponent(buttonStatistics)
+                .addGap(120, 127, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(161, 161, 161))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
                 .addComponent(buttonUserRegistry)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(buttonExit)
-                .addGap(60, 60, 60))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addComponent(buttonPatientRegistry)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonPatientSearch)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonStatistics))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttonPatientSearch)
                     .addComponent(buttonStatistics)
                     .addComponent(buttonPatientRegistry))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonUserRegistry)
-                    .addComponent(buttonExit))
-                .addGap(84, 84, 84))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buttonExit)
+                    .addComponent(buttonUserRegistry))
+                .addGap(67, 67, 67))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
