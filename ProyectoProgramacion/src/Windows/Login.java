@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.apache.commons.codec.cli.Digest;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  * @author JD101
@@ -209,8 +211,10 @@ public class Login extends javax.swing.JFrame {
 
         if (textFieldUserEmpty && passwordFieldPasswordEmpty) {
 
+            String encryptedPassword = DigestUtils.md5Hex(password);
+            
             user.setUserName(textFieldUser.getText());
-            user.setUserPassword(password);
+            user.setUserPassword(encryptedPassword);
 
             try {
 
