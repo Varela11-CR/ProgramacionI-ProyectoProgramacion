@@ -24,12 +24,12 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     public Login() {
-        
+
         initComponents();
         setLocationRelativeTo(null);
         this.getRootPane().setDefaultButton(buttonLogin);
     }
-    
+
     /**
      * Crea un nuevo formulario Login.
      *
@@ -59,6 +59,7 @@ public class Login extends javax.swing.JFrame {
         textFieldUser = new javax.swing.JTextField();
         labelGreeting = new javax.swing.JLabel();
         labelUserIcon = new javax.swing.JLabel();
+        buttonExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(450, 530));
@@ -110,16 +111,32 @@ public class Login extends javax.swing.JFrame {
 
         labelUserIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Login/userIcon.png"))); // NOI18N
 
+        buttonExit.setFont(new java.awt.Font("Nirmala UI", 1, 12)); // NOI18N
+        buttonExit.setForeground(new java.awt.Color(255, 255, 255));
+        buttonExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Login/buttonLogin.png"))); // NOI18N
+        buttonExit.setText("Salir");
+        buttonExit.setBorder(null);
+        buttonExit.setBorderPainted(false);
+        buttonExit.setFocusPainted(false);
+        buttonExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonExit.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Login/buttonLoginRollOver.png"))); // NOI18N
+        buttonExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonExitActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(121, 121, 121)
+                .addComponent(labelUserIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(31, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(buttonLogin)
-                        .addGap(141, 141, 141))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -133,11 +150,12 @@ public class Login extends javax.swing.JFrame {
                         .addGap(39, 39, 39))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(labelGreeting)
-                        .addGap(79, 79, 79))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addComponent(labelUserIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(79, 79, 79))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(buttonExit)
+                            .addComponent(buttonLogin))
+                        .addGap(144, 144, 144))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,9 +172,11 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelPassword))
-                .addGap(41, 41, 41)
+                .addGap(18, 18, 18)
                 .addComponent(buttonLogin)
-                .addGap(42, 42, 42))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(buttonExit)
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -200,7 +220,8 @@ public class Login extends javax.swing.JFrame {
 
     /**
      * Evalúa las credenciales ingresadas en el login para conceder acceso o no.
-     * @param evt 
+     *
+     * @param evt
      */
     private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
 
@@ -213,7 +234,7 @@ public class Login extends javax.swing.JFrame {
         if (textFieldUserEmpty && passwordFieldPasswordEmpty) {
 
             String encryptedPassword = DigestUtils.md5Hex(password);
-            
+
             user.setUserName(textFieldUser.getText());
             user.setUserPassword(encryptedPassword);
 
@@ -243,6 +264,15 @@ public class Login extends javax.swing.JFrame {
     private void textFieldUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldUserActionPerformed
         textFieldUser.transferFocus();
     }//GEN-LAST:event_textFieldUserActionPerformed
+
+    /**
+     * Al presionar el botón salir cierra el programa.
+     *
+     * @param evt
+     */
+    private void buttonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExitActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_buttonExitActionPerformed
     //  ------------------------------------------------------------------------
 
     /**
@@ -270,6 +300,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonExit;
     private javax.swing.JButton buttonLogin;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

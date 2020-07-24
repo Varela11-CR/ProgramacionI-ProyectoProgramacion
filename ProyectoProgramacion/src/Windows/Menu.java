@@ -50,7 +50,7 @@ public class Menu extends javax.swing.JFrame {
         this.user = user;
 
         if (this.user.getPermissions() != 1) {
-            buttonUserRegistry.setVisible(false);
+            buttonUserList.setVisible(false);
         }
 
     }
@@ -69,7 +69,7 @@ public class Menu extends javax.swing.JFrame {
         buttonPatientRegistry = new javax.swing.JButton();
         buttonStatistics = new javax.swing.JButton();
         buttonPatientSearch = new javax.swing.JButton();
-        buttonUserRegistry = new javax.swing.JButton();
+        buttonUserList = new javax.swing.JButton();
         buttonExit = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -107,13 +107,18 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        buttonUserRegistry.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        buttonUserRegistry.setForeground(new java.awt.Color(255, 255, 255));
-        buttonUserRegistry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Menu/exit.png"))); // NOI18N
-        buttonUserRegistry.setText("Usuarios");
-        buttonUserRegistry.setBorder(null);
-        buttonUserRegistry.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        buttonUserRegistry.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Menu/exitRollOver.png"))); // NOI18N
+        buttonUserList.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
+        buttonUserList.setForeground(new java.awt.Color(255, 255, 255));
+        buttonUserList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Menu/exit.png"))); // NOI18N
+        buttonUserList.setText("Usuarios");
+        buttonUserList.setBorder(null);
+        buttonUserList.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonUserList.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Menu/exitRollOver.png"))); // NOI18N
+        buttonUserList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonUserListActionPerformed(evt);
+            }
+        });
 
         buttonExit.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
         buttonExit.setForeground(new java.awt.Color(255, 255, 255));
@@ -149,7 +154,7 @@ public class Menu extends javax.swing.JFrame {
                 .addGap(161, 161, 161))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(buttonUserRegistry)
+                .addComponent(buttonUserList)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(buttonExit)
                 .addGap(50, 50, 50))
@@ -167,7 +172,7 @@ public class Menu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttonExit)
-                    .addComponent(buttonUserRegistry))
+                    .addComponent(buttonUserList))
                 .addGap(67, 67, 67))
         );
 
@@ -222,7 +227,8 @@ public class Menu extends javax.swing.JFrame {
 
     /**
      * Cierra el formulario y crea uno nuevo tipo PatientSearch.
-     * @param evt 
+     *
+     * @param evt
      */
     private void buttonPatientSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPatientSearchActionPerformed
 
@@ -240,7 +246,8 @@ public class Menu extends javax.swing.JFrame {
 
     /**
      * Cierra el formulario y crea uno nuevo tipo Login.
-     * @param evt 
+     *
+     * @param evt
      */
     private void buttonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExitActionPerformed
 
@@ -250,6 +257,27 @@ public class Menu extends javax.swing.JFrame {
         formLogin.setVisible(true);
 
     }//GEN-LAST:event_buttonExitActionPerformed
+
+    /**
+     * Cierra el formulario y crea uno nuevo tipo UserList.
+     *
+     * @param evt
+     */
+    private void buttonUserListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUserListActionPerformed
+
+        this.dispose();
+
+        try {
+
+            UserList formUserList = new UserList(this, this.user);
+            formUserList.setVisible(true);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }//GEN-LAST:event_buttonUserListActionPerformed
     //  ------------------------------------------------------------------------
 
     /**
@@ -286,7 +314,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton buttonPatientRegistry;
     private javax.swing.JButton buttonPatientSearch;
     private javax.swing.JButton buttonStatistics;
-    private javax.swing.JButton buttonUserRegistry;
+    private javax.swing.JButton buttonUserList;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

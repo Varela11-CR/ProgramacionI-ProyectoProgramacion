@@ -4,19 +4,19 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author JD101
- * 
+ *
  * Clase auxiliar para validar un formulario.
  */
 public class ValidateForm {
 
     /**
      * Valida caracter por caracter que el valor ingresado sea un digito.
-     * @param string
-     * Toma un valor de tipo String para realizar las validaciones necesarias.
-     * @return 
-     * Retorna un valor booleano indicando si es un digito o no. True equivale a 
-     * que el valor es un digito, False equivale a que el valor ingresado no es 
-     * un digito.
+     *
+     * @param string Toma un valor de tipo String para realizar las validaciones
+     * necesarias.
+     * @return Retorna un valor booleano indicando si es un digito o no. True
+     * equivale a que el valor es un digito, False equivale a que el valor
+     * ingresado no es un digito.
      */
     public static boolean isDigit(String string) {
 
@@ -37,14 +37,14 @@ public class ValidateForm {
     }
 
     /**
-     * Valida que el valor ingresado sea uno o varios nombres(incluye letras del 
+     * Valida que el valor ingresado sea uno o varios nombres(incluye letras del
      * abecedario en español).
-     * @param string
-     * Toma un valor de tipo String para realizar las validaciones necesarias.
-     * @return 
-     * Retorna un valor booleano indicando si es uno o varios nombres, o no. 
-     * True equivale a que el valor es uno o varios nombres, False equivale a 
-     * que el valor ingresado no es ni un nombre.
+     *
+     * @param string Toma un valor de tipo String para realizar las validaciones
+     * necesarias.
+     * @return Retorna un valor booleano indicando si es uno o varios nombres, o
+     * no. True equivale a que el valor es uno o varios nombres, False equivale
+     * a que el valor ingresado no es ni un nombre.
      */
     public static boolean isNames(String string) {
 
@@ -65,16 +65,16 @@ public class ValidateForm {
         return true;
 
     }
-    
+
     /**
-     * Valida que el valor ingresado sea un apellido (incluye letras del 
+     * Valida que el valor ingresado sea un apellido (incluye letras del
      * abecedario en español).
-     * @param string
-     * Toma un valor de tipo String para realizar las validaciones necesarias.
-     * @return 
-     * Retorna un valor booleano indicando si es un apellido o no. True equivale 
-     * a que el valor es un apellido, False equivale a que el valor ingresado no 
-     * es un apellido.
+     *
+     * @param string Toma un valor de tipo String para realizar las validaciones
+     * necesarias.
+     * @return Retorna un valor booleano indicando si es un apellido o no. True
+     * equivale a que el valor es un apellido, False equivale a que el valor
+     * ingresado no es un apellido.
      */
     public static boolean isLastname(String string) {
 
@@ -96,11 +96,12 @@ public class ValidateForm {
     }
 
     /**
-     * Valida que el valor ingresado sea un país (incluye letras del abecedario 
+     * Valida que el valor ingresado sea un país (incluye letras del abecedario
      * en español).
-     * @param string
-     * Toma un valor de tipo String para realizar las validaciones necesarias.
-     * @return 
+     *
+     * @param string Toma un valor de tipo String para realizar las validaciones
+     * necesarias.
+     * @return
      */
     public static boolean isNationality(String string) {
 
@@ -121,16 +122,16 @@ public class ValidateForm {
         return true;
 
     }
-    
+
     /**
-     * Valida que el valor ingresado sea un número de teléfono(incluyendo los 
+     * Valida que el valor ingresado sea un número de teléfono(incluyendo los
      * caracteres “+”, “ “).
-     * @param string
-     * Toma un valor de tipo String para realizar las validaciones necesarias.
-     * @return 
-     * Retorna un valor booleano indicando si es un número de teléfono o no. 
-     * True equivale a que es un número de teléfono, False equivale a que no es 
-     * un número de teléfono.
+     *
+     * @param string Toma un valor de tipo String para realizar las validaciones
+     * necesarias.
+     * @return Retorna un valor booleano indicando si es un número de teléfono o
+     * no. True equivale a que es un número de teléfono, False equivale a que no
+     * es un número de teléfono.
      */
     public static boolean isPhoneNumber(String string) {
 
@@ -152,14 +153,13 @@ public class ValidateForm {
 
     /**
      * Manipula el String ingresado y le da formato.
-     * @param string
-     * Toma un valor de tipo String y le aplica formato(Le hace un Capital Case 
-     * y un .trim).
-     * @return 
-     * Retorna un valor de tipo String ya con el formato aplicado.
+     *
+     * @param string Toma un valor de tipo String y le aplica formato(Le hace un
+     * Capital Case y un .trim).
+     * @return Retorna un valor de tipo String ya con el formato aplicado.
      */
-    public static String manipulateString(String string){
-        
+    public static String manipulateString(String string) {
+
         return StringUtils.capitalize(string.trim());
 
     }

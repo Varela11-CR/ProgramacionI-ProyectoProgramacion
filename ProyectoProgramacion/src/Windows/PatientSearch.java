@@ -454,7 +454,8 @@ public class PatientSearch extends javax.swing.JFrame {
     }//GEN-LAST:event_comboBoxSearchFilterActionPerformed
 
     /**
-     * Cierra esta ventana y vuelve al menú.
+     * Cierra este formulario e instancia uno nuevo de tipo Menu, y lo hace
+     * visible.
      *
      * @param evt
      */

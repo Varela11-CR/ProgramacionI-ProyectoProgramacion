@@ -184,8 +184,8 @@ public class PatientsService {
     }
 
     /**
-     * Muestra toda la información de la tabla, con objeto Java tipo
-     * DefaultTableModel.
+     * Muestra toda la información de la tabla, con la ayuda del objeto Java 
+     * tipo DefaultTableModel.
      *
      * @return Retorna un objeto DefaultTableModel con las columnas de la tabla
      * patients de la base de datos y las filas obtenidas en la consulta SQL.
@@ -198,9 +198,7 @@ public class PatientsService {
             "F. Nacimiento", "F. Prueba", "Estado Prueba", "Número", "Dirección",
             "Observaciones"};
         String[] registry = new String[11];
-
         DefaultTableModel model = new DefaultTableModel(null, colums);
-
         String query = "SELECT * FROM " + this.table;
 
         ConnectionDB connectionDB = new ConnectionDB();

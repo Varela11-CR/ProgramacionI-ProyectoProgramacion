@@ -5,9 +5,17 @@
  */
 package Windows;
 
+import Models.User;
+import Services.UsersService;
+import WindowsBackground.CustomPanel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,11 +23,27 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class UserList extends javax.swing.JFrame {
 
+    //  Variables and Objects
+    //  ------------------------------------------------------------------------
+    private User user;
+    //  ------------------------------------------------------------------------
+
     /**
      * Creates new form UserList
      */
     public UserList() {
         initComponents();
+    }
+
+    public UserList(JFrame window, User user) throws SQLException {
+
+        initComponents();
+        lockComponents();
+        initTable();
+        setLocationRelativeTo(window);
+
+        this.user = user;
+
     }
 
     /**
@@ -31,23 +55,24 @@ public class UserList extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new CustomPanel("/Images/UserList/backgroundBelow.png");
+        jPanel2 = new CustomPanel("/Images/UserList/background.png");
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        tableUsers = new javax.swing.JTable();
+        buttonAdd = new javax.swing.JButton();
+        buttonModify = new javax.swing.JButton();
+        buttonRemove = new javax.swing.JButton();
+        buttonExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Lista de Usuarios");
+        setResizable(false);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(700, 500));
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.setPreferredSize(new java.awt.Dimension(600, 400));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -58,23 +83,69 @@ public class UserList extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tableUsers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableUsersMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableUsers);
 
-        jButton1.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        jButton1.setText("Añadir");
-        jButton1.setPreferredSize(new java.awt.Dimension(150, 60));
+        buttonAdd.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
+        buttonAdd.setForeground(new java.awt.Color(255, 255, 255));
+        buttonAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/button.png"))); // NOI18N
+        buttonAdd.setText("Añadir");
+        buttonAdd.setBorder(null);
+        buttonAdd.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/buttonDisabled.png"))); // NOI18N
+        buttonAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonAdd.setPreferredSize(new java.awt.Dimension(150, 60));
+        buttonAdd.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/buttonRollOver.png"))); // NOI18N
+        buttonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddActionPerformed(evt);
+            }
+        });
 
-        jButton5.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        jButton5.setText("Modificar");
-        jButton5.setPreferredSize(new java.awt.Dimension(150, 60));
+        buttonModify.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
+        buttonModify.setForeground(new java.awt.Color(255, 255, 255));
+        buttonModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/button.png"))); // NOI18N
+        buttonModify.setText("Modificar");
+        buttonModify.setBorder(null);
+        buttonModify.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/buttonDisabled.png"))); // NOI18N
+        buttonModify.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonModify.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/buttonRollOver.png"))); // NOI18N
+        buttonModify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonModifyActionPerformed(evt);
+            }
+        });
 
-        jButton6.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        jButton6.setText("Eliminar");
-        jButton6.setPreferredSize(new java.awt.Dimension(150, 60));
+        buttonRemove.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
+        buttonRemove.setForeground(new java.awt.Color(255, 255, 255));
+        buttonRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/button.png"))); // NOI18N
+        buttonRemove.setText("Eliminar");
+        buttonRemove.setBorder(null);
+        buttonRemove.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/buttonDisabled.png"))); // NOI18N
+        buttonRemove.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonRemove.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/buttonRollOver.png"))); // NOI18N
+        buttonRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRemoveActionPerformed(evt);
+            }
+        });
 
-        jButton7.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        jButton7.setText("Salir");
-        jButton7.setPreferredSize(new java.awt.Dimension(150, 60));
+        buttonExit.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
+        buttonExit.setForeground(new java.awt.Color(255, 255, 255));
+        buttonExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/button.png"))); // NOI18N
+        buttonExit.setText("Salir");
+        buttonExit.setBorder(null);
+        buttonExit.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/buttonDisabled.png"))); // NOI18N
+        buttonExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonExit.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/buttonRollOver.png"))); // NOI18N
+        buttonExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonExitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -83,12 +154,12 @@ public class UserList extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonModify)
+                    .addComponent(buttonRemove)
+                    .addComponent(buttonExit))
                 .addGap(40, 40, 40))
         );
         jPanel2Layout.setVerticalGroup(
@@ -97,15 +168,15 @@ public class UserList extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buttonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buttonModify)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(buttonRemove)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(buttonExit))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -143,6 +214,93 @@ public class UserList extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //  Own Code
+    //  ------------------------------------------------------------------------
+    /**
+     * Bloquea los botones de modificar y eliminar.
+     */
+    private void lockComponents() {
+
+        this.buttonModify.setEnabled(false);
+        this.buttonRemove.setEnabled(false);
+
+    }
+
+    /**
+     * Desbloquea los botones de modificar y eliminar.
+     */
+    private void unlockComponents() {
+
+        this.buttonModify.setEnabled(true);
+        this.buttonRemove.setEnabled(true);
+
+    }
+
+    /**
+     * Inicializa la tabla mostrando el nombre de usuario y los permisos del
+     * usuario, estos datos tomados de la tabla users.
+     *
+     * @throws SQLException Controla los errores tipo SQL que se pudieran dar
+     * por la consulta de la información a la base de datos.
+     */
+    public void initTable() throws SQLException {
+
+        UsersService usersService = new UsersService();
+        DefaultTableModel model = usersService.showInformation();
+        this.tableUsers.setModel(model);
+
+    }
+
+    /**
+     * Cierra este formulario e instancia uno nuevo de tipo Menu, y lo hace
+     * visible.
+     *
+     * @param evt
+     */
+    private void buttonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExitActionPerformed
+
+        this.dispose();
+
+        Menu formMenu = new Menu(this, this.user);
+        formMenu.setVisible(true);
+
+    }//GEN-LAST:event_buttonExitActionPerformed
+
+    /**
+     * Desbloquea los botones modificar y eliminar cuando presiona alguna celda
+     * la tabla.
+     *
+     * @param evt
+     */
+    private void tableUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableUsersMouseClicked
+        unlockComponents();
+    }//GEN-LAST:event_tableUsersMouseClicked
+
+    /**
+     * Crea un nuevo formulario de tipo UserAdministration pasando como
+     * parámetro del constructor el formulario actual, luego al nuevo formulario
+     * lo hace visible.
+     *
+     * @param evt
+     */
+    private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
+
+        UserAdministration formUserAdministration = new UserAdministration(this);
+        formUserAdministration.setVisible(true);
+
+    }//GEN-LAST:event_buttonAddActionPerformed
+
+    private void buttonModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModifyActionPerformed
+
+
+    }//GEN-LAST:event_buttonModifyActionPerformed
+
+    private void buttonRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveActionPerformed
+
+
+    }//GEN-LAST:event_buttonRemoveActionPerformed
+
+    //  ------------------------------------------------------------------------
     /**
      * @param args the command line arguments
      */
@@ -170,13 +328,13 @@ public class UserList extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton buttonAdd;
+    private javax.swing.JButton buttonExit;
+    private javax.swing.JButton buttonModify;
+    private javax.swing.JButton buttonRemove;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableUsers;
     // End of variables declaration//GEN-END:variables
 }

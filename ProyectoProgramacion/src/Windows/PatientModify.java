@@ -459,7 +459,7 @@ public class PatientModify extends javax.swing.JFrame {
      * Crea un objeto de tipo Patient, luego obtiene los datos para rellenar al
      * objeto, realiza las comprobaciones necesarias para hacer la actualización
      * del registro, si todos los datos están completos y son del tipo adecuado
-     * de procede a realizar la actualización del registro, al finalizar se
+     * se procede a realizar la actualización del registro, al finalizar se
      * cierra el formulario.
      *
      * @throws SQLException Controla los errores tipo SQL que se pudieran dar
@@ -472,19 +472,19 @@ public class PatientModify extends javax.swing.JFrame {
 
         if (patientsService.validateAllDataIncomplete(patientModification)) {
 
-            JOptionPane.showMessageDialog(null, "Todos los campos requeridos por "
+            JOptionPane.showMessageDialog(this, "Todos los campos requeridos por "
                     + "el formulario están vacíos, rellénelos y vuelva a intentar "
                     + "ingresar al paciente.");
 
         } else if (patientsService.validateDataByData(patientModification)) {
 
-            JOptionPane.showMessageDialog(null, "Uno o más campos requeridos "
+            JOptionPane.showMessageDialog(this, "Uno o más campos requeridos "
                     + "por el formulario están vacíos, rellénelos y vuelva a "
                     + "intentar ingresar al paciente.");
 
         } else if (!patientsService.validateDataTypes(patientModification)) {
 
-            JOptionPane.showMessageDialog(null, "Uno o más tipos de datos no son "
+            JOptionPane.showMessageDialog(this, "Uno o más tipos de datos no son "
                     + "los solicitados por el formulario, revíselos y vuelva a "
                     + "intentar ingresar al paciente.");
 
@@ -586,6 +586,7 @@ public class PatientModify extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new PatientModify().setVisible(true);
             }
