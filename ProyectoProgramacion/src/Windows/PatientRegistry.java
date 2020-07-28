@@ -523,8 +523,8 @@ public class PatientRegistry extends javax.swing.JFrame {
         PatientsService patientsService = new PatientsService();
         Patient patient = new Patient();
 
-        patient.setIdPatient(textFieldIdPatient.getText().trim());
-        patient.setNamePatient(manipulateString(textFieldNamePatient.getText()));
+        patient.setId(textFieldIdPatient.getText().trim());
+        patient.setName(manipulateString(textFieldNamePatient.getText()));
         patient.setFirstLastName(manipulateString(textFieldFirstLastName.getText()));
         patient.setSecondLastName(manipulateString(textFieldSecondLastName.getText()));
         patient.setNationality(comboBoxNationality.getSelectedItem().toString());

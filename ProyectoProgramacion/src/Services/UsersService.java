@@ -3,6 +3,7 @@ package Services;
 import Models.User;
 import static Utilities.ValidateUser.isPassword;
 import static Utilities.ValidateUser.isUserName;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -194,6 +195,117 @@ public class UsersService {
                 return false;
 
             }
+
+        }
+
+    }
+
+    /**
+     * Realiza la actualización de los datos de un usuario.
+     *
+     * @param user Toma los atributos del objeto tipo User para hacer la
+     * actualización de los datos dependiendo del user_name.
+     * @return Retorna un valor booleano dependiendo de la conclusión de la
+     * actualización de la información. True la actualización de los datos
+     * terminó correctamente, False la actualización de los datos no se
+     * concretó.
+     * @throws SQLException Controla los errores tipo SQL que se pudieran dar
+     * por la actualización de la información a la base de datos.
+     */
+    public boolean updateData(User user) throws SQLException {
+
+        String query = "UPDATE " + this.table + " SET user_name = ?, "
+                + "user_password = ?, permissions = ? WHERE user_name = ?";
+        String encryptedPassword = DigestUtils.md5Hex(user.getUserPassword());
+
+        ConnectionDB connectionDB = new ConnectionDB();
+        Connection connection = connectionDB.getConnectionDB();
+        PreparedStatement ps;
+
+        try {
+
+            ps = connection.prepareStatement(query);
+
+            ps.setString(1, user.getUserName());
+            ps.setString(2, encryptedPassword);
+            ps.setInt(3, user.getPermissions());
+            ps.setString(4, user.getUserName());
+
+            int recordsUpdated = ps.executeUpdate();
+
+            if (recordsUpdated > 0) {
+                JOptionPane.showMessageDialog(null, "Registro modificado con "
+                        + "éxito.");
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Registro modificado sin "
+                        + "éxito.");
+                connectionDB.closeConnectionDB();
+                return false;
+
+            }
+
+            connectionDB.closeConnectionDB();
+            return true;
+
+        } catch (HeadlessException | SQLException e) {
+
+            connectionDB.closeConnectionDB();
+            JOptionPane.showMessageDialog(null, e);
+            return false;
+
+        }
+
+    }
+
+    /**
+     * Realiza la eliminación de un registro de la tabla users.
+     *
+     * @param user Toma el atributo userName del objeto user para realizar la
+     * eliminación del registro en la tabla. El registro a eliminar depende del
+     * valor del atributo tomado.
+     * @return Retorna un valor booleano dependiendo de la conclusión de la
+     * eliminación del registro. True la eliminación del registro terminó
+     * correctamente, False la eliminación del registro no se concretó.
+     * @throws SQLException Controla los errores tipo SQL que se pudieran dar
+     * por la eliminación del registro de la base de datos.
+     */
+    public boolean deleteUser(User user) throws SQLException {
+
+        String query = "DELETE FROM " + this.table + " WHERE user_name = ?";
+
+        ConnectionDB connectionDB = new ConnectionDB();
+        Connection connection = connectionDB.getConnectionDB();
+        PreparedStatement ps;
+
+        try {
+
+            ps = connection.prepareStatement(query);
+
+            ps.setString(1, user.getUserName());
+
+            int recordsDeleted = ps.executeUpdate();
+
+            if (recordsDeleted > 0) {
+                JOptionPane.showMessageDialog(null, "Registro eliminado con "
+                        + "éxito");
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Registro eliminado sin "
+                        + "éxito.");
+                connectionDB.closeConnectionDB();
+                return false;
+
+            }
+
+            connectionDB.closeConnectionDB();
+            return true;
+
+        } catch (HeadlessException | SQLException e) {
+
+            connectionDB.closeConnectionDB();
+            JOptionPane.showMessageDialog(null, e);
+            return false;
 
         }
 

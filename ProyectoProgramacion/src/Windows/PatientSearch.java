@@ -317,8 +317,8 @@ public class PatientSearch extends javax.swing.JFrame {
 
         int rowTable = tablePatientsTable.getSelectedRow();
 
-        patient.setIdPatient(tablePatientsTable.getValueAt(rowTable, 0).toString());
-        patient.setNamePatient(tablePatientsTable.getValueAt(rowTable, 1).toString());
+        patient.setId(tablePatientsTable.getValueAt(rowTable, 0).toString());
+        patient.setName(tablePatientsTable.getValueAt(rowTable, 1).toString());
         patient.setFirstLastName(tablePatientsTable.getValueAt(rowTable, 2).toString());
         patient.setSecondLastName(tablePatientsTable.getValueAt(rowTable, 3).toString());
         patient.setNationality(tablePatientsTable.getValueAt(rowTable, 4).toString());
@@ -478,8 +478,8 @@ public class PatientSearch extends javax.swing.JFrame {
     private void buttonRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveActionPerformed
 
         int option = JOptionPane.showConfirmDialog(this,
-                "Desea eliminar al paciente?", "",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.YES_NO_OPTION);
+                "Desea eliminar al paciente?", "", JOptionPane.OK_CANCEL_OPTION, 
+                JOptionPane.YES_NO_OPTION);
 
         if (option == 0) {
 

@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
@@ -26,6 +27,7 @@ public class UserList extends javax.swing.JFrame {
     //  Variables and Objects
     //  ------------------------------------------------------------------------
     private User user;
+    private User userForChange;
     //  ------------------------------------------------------------------------
 
     /**
@@ -252,6 +254,45 @@ public class UserList extends javax.swing.JFrame {
     }
 
     /**
+     * Crea un objeto de tipo User y rellena los atributos de este de acuerdo
+     * con la fila que hay seleccionada en la tabla.
+     *
+     * @return Retorna un objeto de tipo User con sus atributos llenos.
+     */
+    private User getUserData() {
+
+        User userTemp = new User();
+        int rowTable = tableUsers.getSelectedRow();
+        int permissions;
+
+        userTemp.setUserName(tableUsers.getValueAt(rowTable, 0).toString());
+
+        if (tableUsers.getValueAt(rowTable, 1).toString().equals("Si")) {
+            userTemp.setPermissions(1);
+        } else {
+            userTemp.setPermissions(0);
+        }
+
+        return userTemp;
+
+    }
+
+    /**
+     * Crea un objeto de tipo User y rellena sus atributos con el método
+     * getUserData(), luego realiza la eliminación del registro.
+     *
+     * @throws SQLException Controla los errores tipo SQL que se pudieran dar
+     * por la eliminación del registro de la base de datos.
+     */
+    private void removeUser() throws SQLException {
+
+        UsersService usersService = new UsersService();
+        User user = getUserData();
+        usersService.deleteUser(user);
+
+    }
+
+    /**
      * Cierra este formulario e instancia uno nuevo de tipo Menu, y lo hace
      * visible.
      *
@@ -290,17 +331,54 @@ public class UserList extends javax.swing.JFrame {
 
     }//GEN-LAST:event_buttonAddActionPerformed
 
+    /**
+     * Crea un objeto de tipo User y rellena sus atributos con el método
+     * getUserData(), luego instancia un formulario de tipo UserAdministration
+     * pasandole este formulario y el objeto creado al constructor, al
+     * formulario creado lo hace visible.
+     *
+     * @param evt
+     */
     private void buttonModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModifyActionPerformed
 
+        this.userForChange = getUserData();
+
+        UserAdministration formUserAdministration = new UserAdministration(this, this.userForChange);
+        formUserAdministration.setVisible(true);
 
     }//GEN-LAST:event_buttonModifyActionPerformed
 
+    /**
+     * Lanza un mensaje de confirmación al presionar el botón eliminar para
+     * eliminar o no el registro seleccionado de la tabla. Al eliminar el
+     * registro lanza la confirmación y en el caso contrario también.
+     *
+     * @param evt
+     */
     private void buttonRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveActionPerformed
 
+        int option = JOptionPane.showConfirmDialog(this,
+                "Desea eliminar al usuario?", "", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.YES_NO_OPTION);
+
+        if (option == 0) {
+
+            try {
+
+                removeUser();
+                initTable();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(UserList.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuario no eliminado.");
+        }
 
     }//GEN-LAST:event_buttonRemoveActionPerformed
-
     //  ------------------------------------------------------------------------
+
     /**
      * @param args the command line arguments
      */

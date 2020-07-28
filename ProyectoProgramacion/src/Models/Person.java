@@ -8,8 +8,8 @@ package Models;
  */
 public class Person {
 
-    private String idPatient;
-    private String namePatient;
+    private String id;
+    private String name;
     private String firstLastName;
     private String secondLastName;
     private String nationality;
@@ -23,8 +23,8 @@ public class Person {
      */
     public Person() {
 
-        this.idPatient = null;
-        this.namePatient = null;
+        this.id = null;
+        this.name = null;
         this.firstLastName = null;
         this.secondLastName = null;
         this.nationality = null;
@@ -50,8 +50,8 @@ public class Person {
             String secondLastName, String nationality, String birthdate, 
             String phoneNumber, String address) {
 
-        this.idPatient = idPatient;
-        this.namePatient = namePatient;
+        this.id = idPatient;
+        this.name = namePatient;
         this.firstLastName = firstLastName;
         this.secondLastName = secondLastName;
         this.nationality = nationality;
@@ -62,12 +62,12 @@ public class Person {
     }
 
     //  Setter's
-    public void setIdPatient(String idPatient) {
-        this.idPatient = idPatient;
+    public void setId(String idPatient) {
+        this.id = idPatient;
     }
 
-    public void setNamePatient(String namePatient) {
-        this.namePatient = namePatient;
+    public void setName(String namePatient) {
+        this.name = namePatient;
     }
 
     public void setFirstLastName(String firstLastName) {
@@ -95,12 +95,12 @@ public class Person {
     }
 
     //  Getter's
-    public String getIdPatient() {
-        return this.idPatient;
+    public String getId() {
+        return this.id;
     }
 
-    public String getNamePatient() {
-        return namePatient;
+    public String getName() {
+        return name;
     }
 
     public String getFirstLastName() {

@@ -392,8 +392,8 @@ public class PatientModify extends javax.swing.JFrame {
      */
     private void dataAllocation() throws ParseException {
 
-        textFieldIdPatient.setText(this.patient.getIdPatient());
-        textFieldNamePatient.setText(this.patient.getNamePatient());
+        textFieldIdPatient.setText(this.patient.getId());
+        textFieldNamePatient.setText(this.patient.getName());
         textFieldFirstLastName.setText(this.patient.getFirstLastName());
         textFieldSecondLastName.setText(this.patient.getSecondLastName());
 
@@ -439,8 +439,8 @@ public class PatientModify extends javax.swing.JFrame {
 
         Patient patientData = new Patient();
 
-        patientData.setIdPatient(textFieldIdPatient.getText().trim());
-        patientData.setNamePatient(manipulateString(textFieldNamePatient.getText()));
+        patientData.setId(textFieldIdPatient.getText().trim());
+        patientData.setName(manipulateString(textFieldNamePatient.getText()));
         patientData.setFirstLastName(manipulateString(textFieldFirstLastName.getText()));
         patientData.setSecondLastName(manipulateString(textFieldSecondLastName.getText()));
         patientData.setNationality(comboBoxNationality.getSelectedItem().toString());

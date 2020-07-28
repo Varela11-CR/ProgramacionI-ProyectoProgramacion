@@ -46,8 +46,8 @@ public class PatientsService {
      */
     public boolean validateAllDataIncomplete(Patient patient) {
 
-        boolean allDataIncomplete = (patient.getIdPatient().equals(""))
-                && (patient.getNamePatient().equals(""))
+        boolean allDataIncomplete = (patient.getId().equals(""))
+                && (patient.getName().equals(""))
                 && (patient.getFirstLastName().equals(""))
                 && (patient.getSecondLastName().equals(""))
                 && (patient.getNationality().equals(""))
@@ -71,8 +71,8 @@ public class PatientsService {
      */
     public boolean validateDataByData(Patient patient) {
 
-        boolean allDataIncomplete = (patient.getIdPatient().equals(""))
-                || (patient.getNamePatient().equals(""))
+        boolean allDataIncomplete = (patient.getId().equals(""))
+                || (patient.getName().equals(""))
                 || (patient.getFirstLastName().equals(""))
                 || (patient.getSecondLastName().equals(""))
                 || (patient.getNationality().equals(""))
@@ -97,8 +97,8 @@ public class PatientsService {
      */
     public boolean validateDataTypes(Patient patient) {
 
-        boolean correctDataTypes = isDigit(patient.getIdPatient())
-                && isNames(patient.getNamePatient())
+        boolean correctDataTypes = isDigit(patient.getId())
+                && isNames(patient.getName())
                 && isLastname(patient.getFirstLastName())
                 && isLastname(patient.getSecondLastName())
                 && isNationality(patient.getNationality())
@@ -134,8 +134,8 @@ public class PatientsService {
                     + "teststatus_patient, phonenumber_patient, address_patient, "
                     + "observations_patient) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-            ps.setString(1, patient.getIdPatient());
-            ps.setString(2, patient.getNamePatient());
+            ps.setString(1, patient.getId());
+            ps.setString(2, patient.getName());
             ps.setString(3, patient.getFirstLastName());
             ps.setString(4, patient.getSecondLastName());
             ps.setString(5, patient.getNationality());
@@ -184,7 +184,7 @@ public class PatientsService {
     }
 
     /**
-     * Muestra toda la información de la tabla, con la ayuda del objeto Java 
+     * Muestra toda la información de la tabla, con la ayuda del objeto Java
      * tipo DefaultTableModel.
      *
      * @return Retorna un objeto DefaultTableModel con las columnas de la tabla
@@ -288,7 +288,7 @@ public class PatientsService {
      * Realiza la actualización de los datos de un paciente.
      *
      * @param patient Toma los atributos del objeto tipo Patient para hacer la
-     * actualización de los datos dependiendo del idPatient.
+     * actualización de los datos dependiendo del id_patient.
      * @return Retorna un valor booleano dependiendo de la conclusión de la
      * actualización de la información. True la actualización de los datos
      * terminó correctamente, False la actualización de los datos no se
@@ -313,8 +313,8 @@ public class PatientsService {
                     + "phonenumber_patient = ?, address_patient = ?, "
                     + "observations_patient = ? WHERE id_patient = ?");
 
-            ps.setString(1, patient.getIdPatient());
-            ps.setString(2, patient.getNamePatient());
+            ps.setString(1, patient.getId());
+            ps.setString(2, patient.getName());
             ps.setString(3, patient.getFirstLastName());
             ps.setString(4, patient.getSecondLastName());
             ps.setString(5, patient.getNationality());
@@ -324,7 +324,7 @@ public class PatientsService {
             ps.setString(9, patient.getPhoneNumber());
             ps.setString(10, patient.getAddress());
             ps.setString(11, patient.getObservations());
-            ps.setString(12, patient.getIdPatient());
+            ps.setString(12, patient.getId());
 
             int recordsUpdated = ps.executeUpdate();
 
@@ -356,10 +356,9 @@ public class PatientsService {
     /**
      * Realiza la eliminación de un registro de la tabla patients.
      *
-     * @param patient Toma el atributo idPatient del objeto patient para
-     * realizar la eliminación del registro en la tabla. El registro a eliminar
-     * depende del valor del atributo tomado. True la eliminación del registro
-     * termino correctamente, False la eliminación del registro no se concretó.
+     * @param patient Toma el atributo id del objeto patient para realizar la
+     * eliminación del registro en la tabla. El registro a eliminar depende del
+     * valor del atributo tomado.
      * @return Retorna un valor booleano dependiendo de la conclusión de la
      * eliminación del registro. True la eliminación del registro terminó
      * correctamente, False la eliminación del registro no se concretó.
@@ -378,7 +377,7 @@ public class PatientsService {
             ps = connection.prepareStatement("DELETE FROM " + this.table
                     + " WHERE id_patient = ?");
 
-            ps.setString(1, patient.getIdPatient());
+            ps.setString(1, patient.getId());
 
             int recordsDeleted = ps.executeUpdate();
 

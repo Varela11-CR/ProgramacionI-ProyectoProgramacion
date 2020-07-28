@@ -56,7 +56,7 @@ public class UserAdministration extends javax.swing.JFrame {
     }
 
     /**
-     * Crea un formulario de tipo UserAdministration para añadir usuarios.
+     * Crea un formulario de tipo UserAdministration para modificar usuarios.
      *
      * @param formUserList Recibe un formulario de tipo UserList para hacer a
      * UserAdministration una ventana tipo modal.
@@ -71,8 +71,10 @@ public class UserAdministration extends javax.swing.JFrame {
 
         initComponents();
         setLocationRelativeTo(this.formUserList);
+        dataAllocation();
         setTitle("Modificar usuario");
-        textFieldUser.requestFocus();
+        textFieldUser.setEditable(false);
+        passwordFieldPassword.requestFocus();
 
     }
 
@@ -264,14 +266,14 @@ public class UserAdministration extends javax.swing.JFrame {
         return user;
 
     }
-    
+
     /**
      * Crea un objeto de tipo User, luego obtiene los datos para rellenar al
      * objeto, realiza las comprobaciones necesarias para hacer la actualización
      * del registro, si todos los datos están completos y son del tipo adecuado
      * se procede a agregar el registro, al finalizar se cierra el formulario.
      */
-    private void addUser() {
+    private void operationUser() {
 
         UsersService usersService = new UsersService();
         User user = getUserData();
@@ -297,9 +299,20 @@ public class UserAdministration extends javax.swing.JFrame {
 
             try {
 
-                if (usersService.insertUser(user)) {
-                    this.dispose();
-                    formUserList.initTable();
+                if (this.operationAddUser) {
+
+                    if (usersService.insertUser(user)) {
+                        this.dispose();
+                        formUserList.initTable();
+                    }
+
+                } else {
+
+                    if (usersService.updateData(user)) {
+                        this.dispose();
+                        formUserList.initTable();
+                    }
+
                 }
 
             } catch (SQLException ex) {
@@ -307,6 +320,17 @@ public class UserAdministration extends javax.swing.JFrame {
             }
 
         }
+
+    }
+
+    /**
+     * Toma la información de un objeto tipo User y la coloca en los componentes
+     * de la ventana.
+     */
+    private void dataAllocation() {
+
+        textFieldUser.setText(this.user.getUserName());
+        comboBoxPermissions.setSelectedIndex(this.user.getPermissions());
 
     }
 
@@ -350,11 +374,7 @@ public class UserAdministration extends javax.swing.JFrame {
      * @param evt
      */
     private void buttonAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcceptActionPerformed
-
-        if (this.operationAddUser) {
-            addUser();
-        }
-
+        operationUser();
     }//GEN-LAST:event_buttonAcceptActionPerformed
     //  ------------------------------------------------------------------------
 
