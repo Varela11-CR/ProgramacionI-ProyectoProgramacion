@@ -7,11 +7,12 @@ package Windows;
 
 import Models.User;
 import Services.UsersService;
-import WindowsBackground.CustomPanel;
+import Utilities.WindowsBackground.CustomPanel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -33,7 +34,10 @@ public class UserAdministration extends javax.swing.JFrame {
      * Creates new form UserAdministration
      */
     public UserAdministration() {
+        
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
+        
     }
 
     /**
@@ -49,6 +53,7 @@ public class UserAdministration extends javax.swing.JFrame {
         this.operationAddUser = true;
 
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
         setLocationRelativeTo(this.formUserList);
         setTitle("Añadir usuario");
         textFieldUser.requestFocus();
@@ -70,6 +75,7 @@ public class UserAdministration extends javax.swing.JFrame {
         this.operationAddUser = false;
 
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
         setLocationRelativeTo(this.formUserList);
         dataAllocation();
         setTitle("Modificar usuario");
@@ -89,8 +95,8 @@ public class UserAdministration extends javax.swing.JFrame {
 
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
-        jPanel1 = new CustomPanel("/Images/UserAdministration/backgroundBelow.png");
-        jPanel2 = new CustomPanel("/Images/UserAdministration/background.png");
+        panelBackgroundBelow = new CustomPanel("/Images/UserAdministration/backgroundBelow.png");
+        panelBackgroundAbove = new CustomPanel("/Images/UserAdministration/background.png");
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -110,9 +116,9 @@ public class UserAdministration extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(300, 400));
+        panelBackgroundBelow.setPreferredSize(new java.awt.Dimension(300, 400));
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(250, 350));
+        panelBackgroundAbove.setPreferredSize(new java.awt.Dimension(250, 350));
 
         jLabel1.setText("Usuario:");
 
@@ -166,69 +172,69 @@ public class UserAdministration extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelBackgroundAboveLayout = new javax.swing.GroupLayout(panelBackgroundAbove);
+        panelBackgroundAbove.setLayout(panelBackgroundAboveLayout);
+        panelBackgroundAboveLayout.setHorizontalGroup(
+            panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                         .addComponent(comboBoxPermissions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBackgroundAboveLayout.createSequentialGroup()
+                        .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(textFieldUser)
                             .addComponent(passwordFieldPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
                         .addGap(20, 20, 20))))
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addComponent(buttonAccept)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonCancel)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        panelBackgroundAboveLayout.setVerticalGroup(
+            panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                 .addGap(60, 60, 60)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(textFieldUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(passwordFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(comboBoxPermissions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonAccept)
                     .addComponent(buttonCancel))
                 .addGap(60, 60, 60))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelBackgroundBelowLayout = new javax.swing.GroupLayout(panelBackgroundBelow);
+        panelBackgroundBelow.setLayout(panelBackgroundBelowLayout);
+        panelBackgroundBelowLayout.setHorizontalGroup(
+            panelBackgroundBelowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundBelowLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBackgroundAbove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(25, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        panelBackgroundBelowLayout.setVerticalGroup(
+            panelBackgroundBelowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundBelowLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBackgroundAbove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
@@ -236,11 +242,11 @@ public class UserAdministration extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelBackgroundBelow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelBackgroundBelow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -411,10 +417,10 @@ public class UserAdministration extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JPanel panelBackgroundAbove;
+    private javax.swing.JPanel panelBackgroundBelow;
     private javax.swing.JPasswordField passwordFieldPassword;
     private javax.swing.JTextField textFieldUser;
     // End of variables declaration//GEN-END:variables

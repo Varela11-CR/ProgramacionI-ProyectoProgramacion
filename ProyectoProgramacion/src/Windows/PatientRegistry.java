@@ -3,13 +3,14 @@ package Windows;
 import Models.Patient;
 import Models.User;
 import Services.PatientsService;
-import static Utilities.ValidateForm.manipulateString;
-import WindowsBackground.CustomPanel;
+import static Utilities.Validations.ValidateForm.manipulateString;
+import Utilities.WindowsBackground.CustomPanel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -30,11 +31,14 @@ public class PatientRegistry extends javax.swing.JFrame {
      * Creates new form PatientRegistry
      */
     public PatientRegistry() {
+        
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
         setLocationRelativeTo(null);
         cleanComponents();
         lockComponents();
         lockDateEditor();
+        
     }
 
     /**
@@ -46,13 +50,16 @@ public class PatientRegistry extends javax.swing.JFrame {
      * los permisos de usuario.
      */
     public PatientRegistry(JFrame window, User user) {
+        
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
         setLocationRelativeTo(window);
         cleanComponents();
         lockComponents();
         lockDateEditor();
 
         this.user = user;
+        
     }
 
     /**
@@ -64,10 +71,10 @@ public class PatientRegistry extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel3 = new CustomPanel("/Images/PatientRegistry/backgroundBelow.png");
-        jPanel2 = new javax.swing.JPanel();
+        panelBackgroundBelow = new CustomPanel("/Images/PatientRegistry/backgroundBelow.png");
+        panelHeader = new javax.swing.JPanel();
         patientRegistryLabel = new javax.swing.JLabel();
-        jPanel1 = new CustomPanel("/Images/PatientRegistry/background.png");
+        panelBackgroundAbove = new CustomPanel("/Images/PatientRegistry/background.png");
         labelIdPatient = new javax.swing.JLabel();
         labelNamePatient = new javax.swing.JLabel();
         labelFirstLastName = new javax.swing.JLabel();
@@ -102,37 +109,37 @@ public class PatientRegistry extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(820, 700));
         setResizable(false);
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(815, 690));
+        panelBackgroundBelow.setPreferredSize(new java.awt.Dimension(815, 690));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel2.setPreferredSize(new java.awt.Dimension(815, 75));
-        jPanel2.setRequestFocusEnabled(false);
-        jPanel2.setVerifyInputWhenFocusTarget(false);
+        panelHeader.setBackground(new java.awt.Color(255, 255, 255));
+        panelHeader.setForeground(new java.awt.Color(255, 255, 255));
+        panelHeader.setPreferredSize(new java.awt.Dimension(815, 75));
+        panelHeader.setRequestFocusEnabled(false);
+        panelHeader.setVerifyInputWhenFocusTarget(false);
 
         patientRegistryLabel.setFont(new java.awt.Font("Nirmala UI", 1, 36)); // NOI18N
         patientRegistryLabel.setForeground(new java.awt.Color(0, 0, 0));
         patientRegistryLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         patientRegistryLabel.setText("Registro de Pacientes");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelHeaderLayout = new javax.swing.GroupLayout(panelHeader);
+        panelHeader.setLayout(panelHeaderLayout);
+        panelHeaderLayout.setHorizontalGroup(
+            panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelHeaderLayout.createSequentialGroup()
                 .addGap(123, 123, 123)
                 .addComponent(patientRegistryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(123, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        panelHeaderLayout.setVerticalGroup(
+            panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelHeaderLayout.createSequentialGroup()
                 .addComponent(patientRegistryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 10, Short.MAX_VALUE))
         );
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(1100, 610));
-        jPanel1.setPreferredSize(new java.awt.Dimension(530, 590));
+        panelBackgroundAbove.setMinimumSize(new java.awt.Dimension(1100, 610));
+        panelBackgroundAbove.setPreferredSize(new java.awt.Dimension(530, 590));
 
         labelIdPatient.setFont(new java.awt.Font("Nirmala UI", 1, 14)); // NOI18N
         labelIdPatient.setText("Número de cédula:");
@@ -277,7 +284,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         buttonExit.setFont(new java.awt.Font("Nirmala UI", 1, 12)); // NOI18N
         buttonExit.setForeground(new java.awt.Color(255, 255, 255));
         buttonExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientRegistry/buttonCancel.png"))); // NOI18N
-        buttonExit.setText("Salir");
+        buttonExit.setText("Atrás");
         buttonExit.setBorder(null);
         buttonExit.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientRegistry/buttonCancelDisabledIcon.png"))); // NOI18N
         buttonExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -291,16 +298,16 @@ public class PatientRegistry extends javax.swing.JFrame {
         comboBoxNationality.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
         comboBoxNationality.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Afganistán", "Albania", "Alemania", "Andorra", "Angola", "Antigua y Barbuda", "Arabia Saudita", "Argelia", "Argentina", "Armenia", "Australia", "Austria", "Azerbaiyán", "Bahamas", "Bangladés", "Barbados", "Baréin", "Bélgica", "Belice", "Benín", "Bielorrusia", "Birmania", "Bolivia", "Bosnia y Herzegovina", "Botsuana", "Brasil", "Brunéi", "Bulgaria", "Burkina Faso", "Burundi", "Bután", "Cabo Verde", "Camboya", "Camerún", "Canadá", "Catar", "Chad", "Chile", "China", "Chipre", "Ciudad del Vaticano", "Colombia", "Comoras", "Corea del Norte", "Corea del Sur", "Costa de Marfil", "Costa Rica", "Croacia", "Cuba", "Dinamarca", "Dominica", "Ecuador", "Egipto", "El Salvador", "Emiratos Árabes Unidos", "Eritrea", "Eslovaquia", "Eslovenia", "España", "Estados Unidos", "Estonia", "Etiopía", "Filipinas", "Finlandia", "Fiyi", "Francia", "Gabón", "Gambia", "Georgia", "Ghana", "Granada", "Grecia", "Guatemala", "Guyana", "Guinea", "Guinea ecuatorial", "Guinea-Bisáu", "Haití", "Honduras", "Hungría", "India", "Indonesia", "Irak", "Irán", "Irlanda", "Islandia", "Islas Marshall", "Islas Salomón", "Israel", "Italia", "Jamaica", "Japón", "Jordania", "Kazajistán", "Kenia", "Kirguistán", "Kiribati", "Kuwait", "Laos", "Lesoto", "Letonia", "Líbano", "Liberia", "Libia", "Liechtenstein", "Lituania", "Luxemburgo", "Macedonia del Norte", "Madagascar", "Malasia", "Malaui", "Maldivas", "Malí", "Malta", "Marruecos", "Mauricio", "Mauritania", "México", "Micronesia", "Moldavia", "Mónaco", "Mongolia", "Montenegro", "Mozambique", "Namibia", "Nauru", "Nepal", "Nicaragua", "Níger", "Nigeria", "Noruega", "Nueva Zelanda", "Omán", "Países Bajos", "Pakistán", "Palaos", "Panamá", "Papúa Nueva Guinea", "Paraguay", "Perú", "Polonia", "Portugal", "Reino Unido", "República Centroafricana", "República Checa", "República del Congo", "República Democrática del Congo", "República Dominicana", "Ruanda", "Rumanía", "Rusia", "Samoa", "San Cristóbal y Nieves", "San Marino", "San Vicente y las Granadinas", "Santa Lucía", "Santo Tomé y Príncipe", "Senegal", "Serbia", "Seychelles", "Sierra Leona", "Singapur", "Siria", "Somalia", "Sri Lanka", "Suazilandia", "Sudáfrica", "Sudán", "Sudán del Sur", "Suecia", "Suiza", "Surinam", "Tailandia", "Tanzania", "Tayikistán", "Timor Oriental", "Togo", "Tonga", "Trinidad y Tobago", "Túnez", "Turkmenistán", "Turquía", "Tuvalu", "Ucrania", "Uganda", "Uruguay", "Uzbekistán", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Yibuti", "Zambia", "Zimbabue" }));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelBackgroundAboveLayout = new javax.swing.GroupLayout(panelBackgroundAbove);
+        panelBackgroundAbove.setLayout(panelBackgroundAboveLayout);
+        panelBackgroundAboveLayout.setHorizontalGroup(
+            panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
+                        .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(labelPhoneNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(labelAddress)
                                 .addComponent(labelObservations)
@@ -312,26 +319,26 @@ public class PatientRegistry extends javax.swing.JFrame {
                             .addComponent(labelSecondLastName)
                             .addComponent(labelNationality)
                             .addComponent(labelBirthdate))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                                 .addGap(19, 19, 19)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(dateChooserTestDay, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(comboBoxNationality, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(textFieldSecondLastName, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(textFieldFirstLastName, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(textFieldNamePatient, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(textFieldIdPatient, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(dateChooserBirthdate, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(textFieldAddress, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(comboBoxTestStatus, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(textFieldPhoneNumber, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                         .addComponent(buttonNew)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(buttonAdd)
@@ -342,79 +349,79 @@ public class PatientRegistry extends javax.swing.JFrame {
                         .addGap(2, 2, 2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        panelBackgroundAboveLayout.setVerticalGroup(
+            panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelIdPatient)
                     .addComponent(textFieldIdPatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelNamePatient)
                     .addComponent(textFieldNamePatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelFirstLastName)
                     .addComponent(textFieldFirstLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelSecondLastName)
                     .addComponent(textFieldSecondLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelNationality)
                     .addComponent(comboBoxNationality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelBirthdate)
                     .addComponent(dateChooserBirthdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelTestDay)
                     .addComponent(dateChooserTestDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelTestStatus)
                     .addComponent(comboBoxTestStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelPhoneNumber)
                     .addComponent(textFieldPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelAddress)
                     .addComponent(textFieldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelObservations)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttonExit, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(buttonAdd)
                         .addComponent(buttonNew)
                         .addComponent(buttonCancel)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelBackgroundBelowLayout = new javax.swing.GroupLayout(panelBackgroundBelow);
+        panelBackgroundBelow.setLayout(panelBackgroundBelowLayout);
+        panelBackgroundBelowLayout.setHorizontalGroup(
+            panelBackgroundBelowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBackgroundBelowLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBackgroundAbove, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(148, 148, 148))
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+        panelBackgroundBelowLayout.setVerticalGroup(
+            panelBackgroundBelowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundBelowLayout.createSequentialGroup()
+                .addComponent(panelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBackgroundAbove, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
@@ -422,12 +429,12 @@ public class PatientRegistry extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelBackgroundBelow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBackgroundBelow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 20, Short.MAX_VALUE))
         );
 
@@ -681,9 +688,6 @@ public class PatientRegistry extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboBoxTestStatus;
     private com.toedter.calendar.JDateChooser dateChooserBirthdate;
     private com.toedter.calendar.JDateChooser dateChooserTestDay;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelAddress;
     private javax.swing.JLabel labelBirthdate;
@@ -696,6 +700,9 @@ public class PatientRegistry extends javax.swing.JFrame {
     private javax.swing.JLabel labelSecondLastName;
     private javax.swing.JLabel labelTestDay;
     private javax.swing.JLabel labelTestStatus;
+    private javax.swing.JPanel panelBackgroundAbove;
+    private javax.swing.JPanel panelBackgroundBelow;
+    private javax.swing.JPanel panelHeader;
     private javax.swing.JLabel patientRegistryLabel;
     private javax.swing.JTextArea textAreaObservations;
     private javax.swing.JTextField textFieldAddress;

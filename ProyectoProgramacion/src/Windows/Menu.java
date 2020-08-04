@@ -6,11 +6,12 @@
 package Windows;
 
 import Models.User;
-import WindowsBackground.CustomPanel;
+import Utilities.WindowsBackground.CustomPanel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -30,8 +31,11 @@ public class Menu extends javax.swing.JFrame {
      * Creates new form Menu
      */
     public Menu() {
+        
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
         setLocationRelativeTo(null);
+        
     }
 
     /**
@@ -45,6 +49,7 @@ public class Menu extends javax.swing.JFrame {
     public Menu(JFrame window, User user) {
 
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
         setLocationRelativeTo(window);
 
         this.user = user;
@@ -64,23 +69,23 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new CustomPanel("/Images/Menu/backgroundBelow.png");
-        jPanel2 = new CustomPanel("/Images/Menu/background.png");
+        panelBackgroundBelow = new CustomPanel("/Images/Menu/backgroundBelow.png");
+        panelBackgroundAbove = new CustomPanel("/Images/Menu/background.png");
         buttonPatientRegistry = new javax.swing.JButton();
         buttonStatistics = new javax.swing.JButton();
         buttonPatientSearch = new javax.swing.JButton();
         buttonUserList = new javax.swing.JButton();
         buttonExit = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú");
         setPreferredSize(new java.awt.Dimension(900, 627));
         setResizable(false);
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(900, 600));
+        panelBackgroundBelow.setPreferredSize(new java.awt.Dimension(900, 600));
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(800, 500));
+        panelBackgroundAbove.setPreferredSize(new java.awt.Dimension(800, 500));
 
         buttonPatientRegistry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Menu/patientRegistry.png"))); // NOI18N
         buttonPatientRegistry.setBorder(null);
@@ -96,6 +101,11 @@ public class Menu extends javax.swing.JFrame {
         buttonStatistics.setBorder(null);
         buttonStatistics.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonStatistics.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Menu/statisticsRollOver.png"))); // NOI18N
+        buttonStatistics.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonStatisticsActionPerformed(evt);
+            }
+        });
 
         buttonPatientSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Menu/patientSearch.png"))); // NOI18N
         buttonPatientSearch.setBorder(null);
@@ -133,63 +143,62 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Menu/logo.jpeg"))); // NOI18N
-        jLabel1.setPreferredSize(new java.awt.Dimension(170, 130));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Menu/logo.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelBackgroundAboveLayout = new javax.swing.GroupLayout(panelBackgroundAbove);
+        panelBackgroundAbove.setLayout(panelBackgroundAboveLayout);
+        panelBackgroundAboveLayout.setHorizontalGroup(
+            panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(buttonUserList)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(buttonExit)
+                .addGap(50, 50, 50))
+            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                 .addGap(127, 127, 127)
                 .addComponent(buttonPatientRegistry)
                 .addGap(18, 18, 18)
                 .addComponent(buttonPatientSearch)
                 .addGap(18, 18, 18)
                 .addComponent(buttonStatistics)
-                .addGap(120, 127, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(161, 161, 161))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(buttonUserList)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(buttonExit)
-                .addGap(50, 50, 50))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBackgroundAboveLayout.createSequentialGroup()
+                .addContainerGap(275, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(275, 275, 275))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelBackgroundAboveLayout.setVerticalGroup(
+            panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
+                .addContainerGap(33, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttonPatientSearch)
                     .addComponent(buttonStatistics)
                     .addComponent(buttonPatientRegistry))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttonExit)
                     .addComponent(buttonUserList))
-                .addGap(67, 67, 67))
+                .addGap(33, 33, 33))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelBackgroundBelowLayout = new javax.swing.GroupLayout(panelBackgroundBelow);
+        panelBackgroundBelow.setLayout(panelBackgroundBelowLayout);
+        panelBackgroundBelowLayout.setHorizontalGroup(
+            panelBackgroundBelowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBackgroundBelowLayout.createSequentialGroup()
                 .addContainerGap(55, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBackgroundAbove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        panelBackgroundBelowLayout.setVerticalGroup(
+            panelBackgroundBelowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundBelowLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBackgroundAbove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(50, Short.MAX_VALUE))
         );
 
@@ -197,12 +206,12 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelBackgroundBelow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBackgroundBelow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(73, Short.MAX_VALUE))
         );
 
@@ -278,6 +287,27 @@ public class Menu extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_buttonUserListActionPerformed
+
+    /**
+     * Cierra el formulario y crea uno nuevo tipo Statistics.
+     * 
+     * @param evt 
+     */
+    private void buttonStatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonStatisticsActionPerformed
+        
+        this.dispose();
+        
+        
+        try {
+            
+            Statistics formStatistics = new Statistics(this, this.user);
+            formStatistics.setVisible(true);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_buttonStatisticsActionPerformed
     //  ------------------------------------------------------------------------
 
     /**
@@ -315,8 +345,8 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton buttonPatientSearch;
     private javax.swing.JButton buttonStatistics;
     private javax.swing.JButton buttonUserList;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel panelBackgroundAbove;
+    private javax.swing.JPanel panelBackgroundBelow;
     // End of variables declaration//GEN-END:variables
 }

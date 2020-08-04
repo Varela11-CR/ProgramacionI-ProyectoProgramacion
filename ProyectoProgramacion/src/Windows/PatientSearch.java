@@ -3,13 +3,14 @@ package Windows;
 import Models.Patient;
 import Models.User;
 import Services.PatientsService;
-import WindowsBackground.CustomPanel;
+import Utilities.WindowsBackground.CustomPanel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import org.apache.commons.lang3.StringUtils;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -32,10 +33,13 @@ public class PatientSearch extends javax.swing.JFrame {
      * @throws java.sql.SQLException
      */
     public PatientSearch() throws SQLException {
+        
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
         setLocationRelativeTo(null);
         initTablePatientsTable();
         textFieldSearchBar.requestFocus();
+        
     }
 
     /**
@@ -50,6 +54,7 @@ public class PatientSearch extends javax.swing.JFrame {
     public PatientSearch(JFrame window, User user) throws SQLException {
 
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
         setLocationRelativeTo(window);
         initTablePatientsTable();
         lockComponents();
@@ -72,8 +77,8 @@ public class PatientSearch extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new CustomPanel("/Images/PatientSearch/backgroundBelow.png");
-        jPanel2 = new CustomPanel("/Images/PatientSearch/background.png");
+        panelBackgroundBelow = new CustomPanel("/Images/PatientSearch/backgroundBelow.png");
+        panelBackgroundAbove = new CustomPanel("/Images/PatientSearch/background.png");
         comboBoxSearchFilter = new javax.swing.JComboBox<>();
         textFieldSearchBar = new javax.swing.JTextField();
         buttonSearch = new javax.swing.JButton();
@@ -90,9 +95,9 @@ public class PatientSearch extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1080, 540));
         setResizable(false);
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(1080, 510));
+        panelBackgroundBelow.setPreferredSize(new java.awt.Dimension(1080, 510));
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(1020, 460));
+        panelBackgroundAbove.setPreferredSize(new java.awt.Dimension(1020, 460));
 
         comboBoxSearchFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cédula", "Nombre", "Primer apellido", "Segundo apellido", "Nacionalidad", "Estado de la prueba" }));
         comboBoxSearchFilter.setPreferredSize(new java.awt.Dimension(70, 26));
@@ -148,6 +153,8 @@ public class PatientSearch extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablePatientsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tablePatientsTable.getTableHeader().setReorderingAllowed(false);
         tablePatientsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablePatientsTableMouseClicked(evt);
@@ -161,7 +168,7 @@ public class PatientSearch extends javax.swing.JFrame {
         buttonExit.setFont(new java.awt.Font("Nirmala UI", 1, 12)); // NOI18N
         buttonExit.setForeground(new java.awt.Color(255, 255, 255));
         buttonExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonRemoveModifyExit.png"))); // NOI18N
-        buttonExit.setText("Atras");
+        buttonExit.setText("Atrás");
         buttonExit.setBorder(null);
         buttonExit.setBorderPainted(false);
         buttonExit.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PatientSearch/buttonRemoveModifyExitDisabled.png"))); // NOI18N
@@ -203,24 +210,24 @@ public class PatientSearch extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelBackgroundAboveLayout = new javax.swing.GroupLayout(panelBackgroundAbove);
+        panelBackgroundAbove.setLayout(panelBackgroundAboveLayout);
+        panelBackgroundAboveLayout.setHorizontalGroup(
+            panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(buttonRemove)
                         .addGap(18, 18, 18)
                         .addComponent(buttonModify)
                         .addGap(38, 38, 38)
                         .addComponent(buttonExit))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBackgroundAboveLayout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 970, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(labelSearchFilter)
@@ -232,11 +239,11 @@ public class PatientSearch extends javax.swing.JFrame {
                                 .addComponent(buttonSearch)))))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        panelBackgroundAboveLayout.setVerticalGroup(
+            panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboBoxSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textFieldSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonSearch)
@@ -245,27 +252,27 @@ public class PatientSearch extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonModify)
                     .addComponent(buttonExit)
                     .addComponent(buttonRemove))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelBackgroundBelowLayout = new javax.swing.GroupLayout(panelBackgroundBelow);
+        panelBackgroundBelow.setLayout(panelBackgroundBelowLayout);
+        panelBackgroundBelowLayout.setHorizontalGroup(
+            panelBackgroundBelowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundBelowLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBackgroundAbove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(30, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        panelBackgroundBelowLayout.setVerticalGroup(
+            panelBackgroundBelowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundBelowLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBackgroundAbove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
@@ -273,11 +280,11 @@ public class PatientSearch extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelBackgroundBelow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelBackgroundBelow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -584,10 +591,10 @@ public class PatientSearch extends javax.swing.JFrame {
     private javax.swing.JButton buttonSearch;
     private javax.swing.JComboBox<String> comboBoxSearchFilter;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelSearchFilter;
+    private javax.swing.JPanel panelBackgroundAbove;
+    private javax.swing.JPanel panelBackgroundBelow;
     private javax.swing.JTable tablePatientsTable;
     private javax.swing.JTextField textFieldSearchBar;
     // End of variables declaration//GEN-END:variables

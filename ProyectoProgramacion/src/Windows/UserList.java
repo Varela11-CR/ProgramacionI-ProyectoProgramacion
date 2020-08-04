@@ -7,11 +7,12 @@ package Windows;
 
 import Models.User;
 import Services.UsersService;
-import WindowsBackground.CustomPanel;
+import Utilities.WindowsBackground.CustomPanel;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -34,12 +35,16 @@ public class UserList extends javax.swing.JFrame {
      * Creates new form UserList
      */
     public UserList() {
+        
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
+        
     }
 
     public UserList(JFrame window, User user) throws SQLException {
 
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
         lockComponents();
         initTable();
         setLocationRelativeTo(window);
@@ -57,8 +62,8 @@ public class UserList extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new CustomPanel("/Images/UserList/backgroundBelow.png");
-        jPanel2 = new CustomPanel("/Images/UserList/background.png");
+        panelBackgroundBelow = new CustomPanel("/Images/UserList/backgroundBelow.png");
+        panelBackgroundAbove = new CustomPanel("/Images/UserList/background.png");
         jScrollPane1 = new javax.swing.JScrollPane();
         tableUsers = new javax.swing.JTable();
         buttonAdd = new javax.swing.JButton();
@@ -70,9 +75,9 @@ public class UserList extends javax.swing.JFrame {
         setTitle("Lista de Usuarios");
         setResizable(false);
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(700, 500));
+        panelBackgroundBelow.setPreferredSize(new java.awt.Dimension(700, 500));
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(600, 400));
+        panelBackgroundAbove.setPreferredSize(new java.awt.Dimension(600, 400));
 
         tableUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -85,6 +90,8 @@ public class UserList extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tableUsers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tableUsers.getTableHeader().setReorderingAllowed(false);
         tableUsers.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableUsersMouseClicked(evt);
@@ -99,7 +106,6 @@ public class UserList extends javax.swing.JFrame {
         buttonAdd.setBorder(null);
         buttonAdd.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/buttonDisabled.png"))); // NOI18N
         buttonAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        buttonAdd.setPreferredSize(new java.awt.Dimension(150, 60));
         buttonAdd.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/buttonRollOver.png"))); // NOI18N
         buttonAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,7 +144,7 @@ public class UserList extends javax.swing.JFrame {
         buttonExit.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
         buttonExit.setForeground(new java.awt.Color(255, 255, 255));
         buttonExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/button.png"))); // NOI18N
-        buttonExit.setText("Salir");
+        buttonExit.setText("Atrás");
         buttonExit.setBorder(null);
         buttonExit.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/UserList/buttonDisabled.png"))); // NOI18N
         buttonExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -149,28 +155,28 @@ public class UserList extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelBackgroundAboveLayout = new javax.swing.GroupLayout(panelBackgroundAbove);
+        panelBackgroundAbove.setLayout(panelBackgroundAboveLayout);
+        panelBackgroundAboveLayout.setHorizontalGroup(
+            panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buttonAdd)
                     .addComponent(buttonModify)
                     .addComponent(buttonRemove)
                     .addComponent(buttonExit))
                 .addGap(40, 40, 40))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        panelBackgroundAboveLayout.setVerticalGroup(
+            panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(buttonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panelBackgroundAboveLayout.createSequentialGroup()
+                        .addComponent(buttonAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(buttonModify)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -181,20 +187,20 @@ public class UserList extends javax.swing.JFrame {
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelBackgroundBelowLayout = new javax.swing.GroupLayout(panelBackgroundBelow);
+        panelBackgroundBelow.setLayout(panelBackgroundBelowLayout);
+        panelBackgroundBelowLayout.setHorizontalGroup(
+            panelBackgroundBelowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundBelowLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBackgroundAbove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(50, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        panelBackgroundBelowLayout.setVerticalGroup(
+            panelBackgroundBelowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackgroundBelowLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBackgroundAbove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(50, Short.MAX_VALUE))
         );
 
@@ -203,13 +209,13 @@ public class UserList extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBackgroundBelow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBackgroundBelow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -410,9 +416,9 @@ public class UserList extends javax.swing.JFrame {
     private javax.swing.JButton buttonExit;
     private javax.swing.JButton buttonModify;
     private javax.swing.JButton buttonRemove;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panelBackgroundAbove;
+    private javax.swing.JPanel panelBackgroundBelow;
     private javax.swing.JTable tableUsers;
     // End of variables declaration//GEN-END:variables
 }

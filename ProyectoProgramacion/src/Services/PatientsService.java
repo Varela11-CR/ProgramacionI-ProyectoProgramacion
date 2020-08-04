@@ -1,16 +1,17 @@
 package Services;
 
 import Models.Patient;
-import static Utilities.ValidateForm.isDigit;
-import static Utilities.ValidateForm.isLastname;
-import static Utilities.ValidateForm.isNames;
-import static Utilities.ValidateForm.isNationality;
-import static Utilities.ValidateForm.isPhoneNumber;
+import static Utilities.Validations.ValidateForm.isDigit;
+import static Utilities.Validations.ValidateForm.isLastname;
+import static Utilities.Validations.ValidateForm.isNames;
+import static Utilities.Validations.ValidateForm.isNationality;
+import static Utilities.Validations.ValidateForm.isPhoneNumber;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -252,7 +253,7 @@ public class PatientsService {
 
         DefaultTableModel model = new DefaultTableModel(null, colums);
 
-        String query = "SELECT * FROM " + this.table + " WHERE  " + colum + " = \"" + searchText + "\"";
+        String query = "SELECT * FROM " + this.table + " WHERE  " + colum + " LIKE \'%" + searchText + "%\'";
 
         ConnectionDB connectionDB = new ConnectionDB();
         Connection connection;
@@ -403,6 +404,185 @@ public class PatientsService {
             return false;
 
         }
+
+    }
+
+    /**
+     * Hace una consulta para saber el total de pacientes registrados en la base
+     * de datos.
+     *
+     * @return Retorna un objeto tipo String con la cantidad obtenida de la
+     * consulta.
+     * @throws SQLException Controla los errores de tipo SQL que se pudieran dar
+     * por la consulta de información a la base de datos.
+     */
+    public String getTotalPatients() throws SQLException {
+
+        String query = "SELECT COUNT(id_patient) FROM " + this.table;
+        String queryResult = null;
+
+        ConnectionDB connectionDB = new ConnectionDB();
+        Connection connection = connectionDB.getConnectionDB();
+
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                queryResult = rs.getString(1);
+            }
+
+            connectionDB.closeConnectionDB();
+
+        } catch (SQLException e) {
+
+            connectionDB.closeConnectionDB();
+            JOptionPane.showMessageDialog(null, e);
+
+        }
+
+        return queryResult;
+
+    }
+
+    /**
+     * Hace una consulta para saber la cantidad de un estado de prueba
+     * específico.
+     *
+     * @param status Recibe un objeto de tipo String que va a contener el estado
+     * a buscar.
+     * @return Retorna un objeto tipo String con la cantidad obtenida de la
+     * consulta.
+     * @throws SQLException Controla los errores de tipo SQL que se pudieran dar
+     * por la consulta de información a la base de datos.
+     */
+    public String getTotalPatientsByStatus(String status) throws SQLException {
+
+        String query = "SELECT COUNT(teststatus_patient) FROM " + this.table
+                + " WHERE teststatus_patient = \"" + status + "\"";
+        String queryResult = null;
+
+        ConnectionDB connectionDB = new ConnectionDB();
+        Connection connection = connectionDB.getConnectionDB();
+
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                queryResult = rs.getString(1);
+            }
+
+            connectionDB.closeConnectionDB();
+
+        } catch (SQLException e) {
+
+            connectionDB.closeConnectionDB();
+            JOptionPane.showMessageDialog(null, e);
+
+        }
+
+        return queryResult;
+
+    }
+
+    /**
+     * Hace una consulta para obtener el total de los estados de pruebas
+     * agrupado por estado de prueba.
+     *
+     * @return Retorna un objeto de tipo ArrayList, en el primer índice esta el
+     * total pruebas negativas, en el segundo el total de pruebas pendientes, en
+     * el tercer el total de pruebas prositivas, en el cuarto el total de
+     * recuperados
+     * @throws SQLException Controla los errores de tipo SQL que se pudieran dar
+     * por la consulta de información a la base de datos.
+     */
+    public ArrayList<String> getTotalPatientsAllStatus() throws SQLException {
+
+        String query = "SELECT COUNT(teststatus_patient) FROM " + this.table
+                + " GROUP BY teststatus_patient";
+        ArrayList<String> queryResults = new ArrayList<>();
+
+        ConnectionDB connectionDB = new ConnectionDB();
+        Connection connection = connectionDB.getConnectionDB();
+
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                queryResults.add(rs.getString(1));
+            }
+
+            connectionDB.closeConnectionDB();
+
+        } catch (SQLException e) {
+
+            connectionDB.closeConnectionDB();
+            JOptionPane.showMessageDialog(null, e);
+
+        }
+
+        return queryResults;
+
+    }
+
+    /**
+     * Hace una consulta para obtener el total de los pacientes nacionales y
+     * extranjeros.
+     *
+     * @return Retorna un objeto de tipo ArrayList, en el primer índice esta el
+     * total de nacionales y en el segundo el total de extranjeros.
+     * @throws SQLException Controla los errores de tipo SQL que se pudieran dar
+     * por la consulta de información a la base de datos.
+     */
+    public ArrayList<Integer> getTotalNationalForeign() throws SQLException {
+
+        String query = "SELECT COUNT(if(nationality_patient = \"Costa Rica\", "
+                + "1, NULL)),  COUNT(if(nationality_patient != \"Costa Rica\", "
+                + "1, NULL)) FROM " + this.table;
+        ArrayList<Integer> queryResults = new ArrayList<>();
+
+        ConnectionDB connectionDB = new ConnectionDB();
+        Connection connection = connectionDB.getConnectionDB();
+
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                queryResults.add(rs.getInt(1));
+                queryResults.add(rs.getInt(2));
+
+            }
+
+            connectionDB.closeConnectionDB();
+
+        } catch (SQLException e) {
+
+            connectionDB.closeConnectionDB();
+            JOptionPane.showMessageDialog(null, e);
+
+        }
+
+        return queryResults;
 
     }
 

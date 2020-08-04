@@ -1,8 +1,8 @@
 package Services;
 
 import Models.User;
-import static Utilities.ValidateUser.isPassword;
-import static Utilities.ValidateUser.isUserName;
+import static Utilities.Validations.ValidateUser.isPassword;
+import static Utilities.Validations.ValidateUser.isUserName;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
