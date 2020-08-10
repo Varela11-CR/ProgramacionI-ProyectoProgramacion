@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -48,12 +49,15 @@ public class ChartService {
      * consulta realizada, al final le da un estilo más específico al objeto
      * JFreeChart.
      *
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un objeto de tipo JFreeChart relleno de datos y con un
      * estilo específico.
      * @throws SQLException Controla los errores de tipo SQL que se pudieran dar
      * por la consulta de información a la base de datos.
      */
-    public static JFreeChart generateGraphDonutStatusPatients() throws SQLException {
+    public static JFreeChart generateGraphDonutStatusPatients(JFrame window) throws SQLException {
 
         String query = "SELECT COUNT(teststatus_patient), teststatus_patient FROM patients GROUP BY teststatus_patient";
 
@@ -98,7 +102,7 @@ public class ChartService {
         } catch (SQLException e) {
 
             connectionDB.closeConnectionDB();
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(window, e);
 
             ch = null;
 
@@ -115,12 +119,15 @@ public class ChartService {
      * consulta realizada, al final le da un estilo más específico al objeto
      * JFreeChart.
      *
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un objeto de tipo JFreeChart relleno de datos y con un
      * estilo específico.
      * @throws SQLException Controla los errores de tipo SQL que se pudieran dar
      * por la consulta de información a la base de datos.
      */
-    public static JFreeChart generateGraphDonutNationalityPatients() throws SQLException {
+    public static JFreeChart generateGraphDonutNationalityPatients(JFrame window) throws SQLException {
 
         String queryNationalPatients = "SELECT COUNT(nationality_patient) FROM "
                 + "patients WHERE nationality_patient = \"Costa Rica\"";
@@ -172,7 +179,7 @@ public class ChartService {
         } catch (SQLException e) {
 
             connectionDB.closeConnectionDB();
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(window, e);
 
             ch = null;
 

@@ -33,13 +33,13 @@ public class PatientSearch extends javax.swing.JFrame {
      * @throws java.sql.SQLException
      */
     public PatientSearch() throws SQLException {
-        
+
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
         setLocationRelativeTo(null);
         initTablePatientsTable();
         textFieldSearchBar.requestFocus();
-        
+
     }
 
     /**
@@ -349,7 +349,7 @@ public class PatientSearch extends javax.swing.JFrame {
     private void initTablePatientsTable() throws SQLException {
 
         PatientsService patientService = new PatientsService();
-        DefaultTableModel model = patientService.showInformation();
+        DefaultTableModel model = patientService.showInformation(this);
         tablePatientsTable.setModel(model);
 
     }
@@ -361,7 +361,7 @@ public class PatientSearch extends javax.swing.JFrame {
      * buscar.
      * @param searchText Indica el texto a buscar en la tabla ingresada.
      * @throws SQLException Controla los errores tipo SQL que se pudieran dar
-     * por la consulta de la
+     * por la consulta de la información.
      *
      */
     private void setTableByTheFilter(int filterPosition, String searchText) throws SQLException {
@@ -372,27 +372,27 @@ public class PatientSearch extends javax.swing.JFrame {
         switch (filterPosition) {
 
             case 0:
-                model = patientsService.showInformationBy("id_patient", searchText);
+                model = patientsService.showInformationBy("id_patient", searchText, this);
                 break;
 
             case 1:
-                model = patientsService.showInformationBy("name_patient", searchText);
+                model = patientsService.showInformationBy("name_patient", searchText, this);
                 break;
 
             case 2:
-                model = patientsService.showInformationBy("first_lastname_patient", searchText);
+                model = patientsService.showInformationBy("first_lastname_patient", searchText, this);
                 break;
 
             case 3:
-                model = patientsService.showInformationBy("second_lastname_patient", searchText);
+                model = patientsService.showInformationBy("second_lastname_patient", searchText, this);
                 break;
 
             case 4:
-                model = patientsService.showInformationBy("nationality_patient", searchText);
+                model = patientsService.showInformationBy("nationality_patient", searchText, this);
                 break;
 
             case 5:
-                model = patientsService.showInformationBy("teststatus_patient", searchText);
+                model = patientsService.showInformationBy("teststatus_patient", searchText, this);
                 break;
 
         }
@@ -412,7 +412,7 @@ public class PatientSearch extends javax.swing.JFrame {
 
         PatientsService patientsService = new PatientsService();
         Patient patient = getPatientData();
-        patientsService.deletePatient(patient);
+        patientsService.deletePatient(patient, this);
 
     }
 
@@ -485,7 +485,7 @@ public class PatientSearch extends javax.swing.JFrame {
     private void buttonRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveActionPerformed
 
         int option = JOptionPane.showConfirmDialog(this,
-                "Desea eliminar al paciente?", "", JOptionPane.OK_CANCEL_OPTION, 
+                "Desea eliminar al paciente?", "", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.YES_NO_OPTION);
 
         if (option == 0) {

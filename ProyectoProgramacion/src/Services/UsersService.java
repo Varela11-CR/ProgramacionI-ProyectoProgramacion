@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -72,8 +73,10 @@ public class UsersService {
             return false;
 
         } catch (SQLException e) {
+
             connectionDB.closeConnectionDB();
             return false;
+
         }
 
     }
@@ -140,13 +143,16 @@ public class UsersService {
      *
      * @param user Toma los atributos del objeto tipo User para ingresarlos en
      * la respectiva tabla.
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un valor booleano dependiendo de la conclusión del
      * ingreso de la información. True el ingreso de los datos termino
      * correctamente, False el ingreso de los datos no se concretó.
      * @throws SQLException Controla los errores tipo SQL que se pudieran dar
      * por el ingreso de información a la base de datos.
      */
-    public boolean insertUser(User user) throws SQLException {
+    public boolean insertUser(User user, JFrame window) throws SQLException {
 
         String query = "INSERT INTO " + this.table + " (user_name, "
                 + "user_password, permissions) VALUES (?,?,?)";
@@ -167,11 +173,11 @@ public class UsersService {
             int recordsAdded = ps.executeUpdate();
 
             if (recordsAdded > 0) {
-                JOptionPane.showMessageDialog(null, "Usuario agregado con "
+                JOptionPane.showMessageDialog(window, "Usuario agregado con "
                         + "éxito.");
             } else {
 
-                JOptionPane.showMessageDialog(null, "Usuario no agregado.");
+                JOptionPane.showMessageDialog(window, "Usuario no agregado.");
                 return false;
 
             }
@@ -184,14 +190,14 @@ public class UsersService {
             if (e.getSQLState().equals("23000")) {
 
                 connectionDB.closeConnectionDB();
-                JOptionPane.showMessageDialog(null, "Nombre de usuario ya en "
+                JOptionPane.showMessageDialog(window, "Nombre de usuario ya en "
                         + "uso.");
                 return false;
 
             } else {
 
                 connectionDB.closeConnectionDB();
-                JOptionPane.showMessageDialog(null, e);
+                JOptionPane.showMessageDialog(window, e);
                 return false;
 
             }
@@ -205,6 +211,9 @@ public class UsersService {
      *
      * @param user Toma los atributos del objeto tipo User para hacer la
      * actualización de los datos dependiendo del user_name.
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un valor booleano dependiendo de la conclusión de la
      * actualización de la información. True la actualización de los datos
      * terminó correctamente, False la actualización de los datos no se
@@ -212,7 +221,7 @@ public class UsersService {
      * @throws SQLException Controla los errores tipo SQL que se pudieran dar
      * por la actualización de la información a la base de datos.
      */
-    public boolean updateData(User user) throws SQLException {
+    public boolean updateData(User user, JFrame window) throws SQLException {
 
         String query = "UPDATE " + this.table + " SET user_name = ?, "
                 + "user_password = ?, permissions = ? WHERE user_name = ?";
@@ -234,11 +243,11 @@ public class UsersService {
             int recordsUpdated = ps.executeUpdate();
 
             if (recordsUpdated > 0) {
-                JOptionPane.showMessageDialog(null, "Registro modificado con "
+                JOptionPane.showMessageDialog(window, "Registro modificado con "
                         + "éxito.");
             } else {
 
-                JOptionPane.showMessageDialog(null, "Registro modificado sin "
+                JOptionPane.showMessageDialog(window, "Registro modificado sin "
                         + "éxito.");
                 connectionDB.closeConnectionDB();
                 return false;
@@ -251,7 +260,7 @@ public class UsersService {
         } catch (HeadlessException | SQLException e) {
 
             connectionDB.closeConnectionDB();
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(window, e);
             return false;
 
         }
@@ -264,13 +273,16 @@ public class UsersService {
      * @param user Toma el atributo userName del objeto user para realizar la
      * eliminación del registro en la tabla. El registro a eliminar depende del
      * valor del atributo tomado.
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un valor booleano dependiendo de la conclusión de la
      * eliminación del registro. True la eliminación del registro terminó
      * correctamente, False la eliminación del registro no se concretó.
      * @throws SQLException Controla los errores tipo SQL que se pudieran dar
      * por la eliminación del registro de la base de datos.
      */
-    public boolean deleteUser(User user) throws SQLException {
+    public boolean deleteUser(User user, JFrame window) throws SQLException {
 
         String query = "DELETE FROM " + this.table + " WHERE user_name = ?";
 
@@ -287,11 +299,11 @@ public class UsersService {
             int recordsDeleted = ps.executeUpdate();
 
             if (recordsDeleted > 0) {
-                JOptionPane.showMessageDialog(null, "Registro eliminado con "
+                JOptionPane.showMessageDialog(window, "Registro eliminado con "
                         + "éxito");
             } else {
 
-                JOptionPane.showMessageDialog(null, "Registro eliminado sin "
+                JOptionPane.showMessageDialog(window, "Registro eliminado sin "
                         + "éxito.");
                 connectionDB.closeConnectionDB();
                 return false;
@@ -304,7 +316,7 @@ public class UsersService {
         } catch (HeadlessException | SQLException e) {
 
             connectionDB.closeConnectionDB();
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(window, e);
             return false;
 
         }
@@ -315,12 +327,15 @@ public class UsersService {
      * Muestra toda la información de la tabla, con la ayuda del objeto Java
      * tipo DefaultTableModel.
      *
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un objeto DefaultTableModel con las columnas de la tabla
      * users de la base de datos y las filas obtenidas en la consulta SQL.
      * @throws SQLException Controla los errores de tipo SQL que se pudieran dar
      * por la consulta de información a la base de datos.
      */
-    public DefaultTableModel showInformation() throws SQLException {
+    public DefaultTableModel showInformation(JFrame window) throws SQLException {
 
         String[] colums = {"Usuarios", "Permisos"};
         String[] registry = new String[2];
@@ -363,7 +378,7 @@ public class UsersService {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al conectar con la base "
+            JOptionPane.showMessageDialog(window, "Error al conectar con la base "
                     + "de datos.");
         }
 

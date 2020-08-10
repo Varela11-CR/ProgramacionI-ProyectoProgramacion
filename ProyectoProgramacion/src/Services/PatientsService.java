@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -114,13 +115,16 @@ public class PatientsService {
      *
      * @param patient Toma los atributos del objeto tipo Patient para
      * ingresarlos en la respectiva tabla.
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un valor booleano dependiendo de la conclusión del
      * ingreso de la información. True el ingreso de los datos termino
      * correctamente, False el ingreso de los datos no se concretó.
      * @throws SQLException Controla los errores tipo SQL que se pudieran dar
      * por el ingreso de información a la base de datos.
      */
-    public boolean insertData(Patient patient) throws SQLException {
+    public boolean insertData(Patient patient, JFrame window) throws SQLException {
 
         ConnectionDB connectionDB = new ConnectionDB();
         Connection connection = connectionDB.getConnectionDB();
@@ -150,10 +154,10 @@ public class PatientsService {
             int recordsAdded = ps.executeUpdate();
 
             if (recordsAdded > 0) {
-                JOptionPane.showMessageDialog(null, "Registro guardado con éxito.");
+                JOptionPane.showMessageDialog(window, "Registro guardado con éxito.");
             } else {
 
-                JOptionPane.showMessageDialog(null, "Registro guardado sin "
+                JOptionPane.showMessageDialog(window, "Registro guardado sin "
                         + "éxito.");
                 connectionDB.closeConnectionDB();
                 return false;
@@ -167,15 +171,22 @@ public class PatientsService {
             if (e.getSQLState().equals("23000")) {
 
                 connectionDB.closeConnectionDB();
-                JOptionPane.showMessageDialog(null, "La cédula pertenece a otro "
+                JOptionPane.showMessageDialog(window, "La cédula pertenece a otro "
                         + "paciente. Revísela y vuelva a intentar ingresar al "
                         + "paciente.");
+                return false;
+
+            } else if (e.getSQLState().equals("22001")) {
+
+                connectionDB.closeConnectionDB();
+                JOptionPane.showMessageDialog(window, "Algún campo excede los "
+                        + "carácteres permitidos.");
                 return false;
 
             } else {
 
                 connectionDB.closeConnectionDB();
-                JOptionPane.showMessageDialog(null, e);
+                JOptionPane.showMessageDialog(window, e);
                 return false;
 
             }
@@ -188,12 +199,15 @@ public class PatientsService {
      * Muestra toda la información de la tabla, con la ayuda del objeto Java
      * tipo DefaultTableModel.
      *
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un objeto DefaultTableModel con las columnas de la tabla
      * patients de la base de datos y las filas obtenidas en la consulta SQL.
      * @throws SQLException Controla los errores de tipo SQL que se pudieran dar
      * por la consulta de información a la base de datos.
      */
-    public DefaultTableModel showInformation() throws SQLException {
+    public DefaultTableModel showInformation(JFrame window) throws SQLException {
 
         String[] colums = {"Cédula", "Nombre", "P. Apellido", "S. Apellido", "Nacionalidad",
             "F. Nacimiento", "F. Prueba", "Estado Prueba", "Número", "Dirección",
@@ -224,7 +238,7 @@ public class PatientsService {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al connectar con la base de datos.");
+            JOptionPane.showMessageDialog(window, "Error al connectar con la base de datos.");
         }
 
         connectionDB.closeConnectionDB();
@@ -238,13 +252,16 @@ public class PatientsService {
      *
      * @param colum Es la columna donde se va a buscar el texto a buscar.
      * @param searchText Es el texto a buscar en la columna.
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un objeto DefaultTableModel con la columna ingresada de
      * la tabla patients de la base de datos y las filas obtenidas en la
      * consulta SQL.
      * @throws SQLException Controla los errores de tipo SQL que se pudieran dar
      * por la consulta de información a la base de datos.
      */
-    public DefaultTableModel showInformationBy(String colum, String searchText) throws SQLException {
+    public DefaultTableModel showInformationBy(String colum, String searchText, JFrame window) throws SQLException {
 
         String[] colums = {"Cédula", "Nombre", "P. Apellido", "S. Apellido", "Nacionalidad",
             "F. Nacimiento", "F. Prueba", "Estado Prueba", "Número", "Dirección",
@@ -277,7 +294,7 @@ public class PatientsService {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al connectar con la base de datos.");
+            JOptionPane.showMessageDialog(window, "Error al connectar con la base de datos.");
         }
 
         connectionDB.closeConnectionDB();
@@ -290,6 +307,9 @@ public class PatientsService {
      *
      * @param patient Toma los atributos del objeto tipo Patient para hacer la
      * actualización de los datos dependiendo del id_patient.
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un valor booleano dependiendo de la conclusión de la
      * actualización de la información. True la actualización de los datos
      * terminó correctamente, False la actualización de los datos no se
@@ -297,7 +317,7 @@ public class PatientsService {
      * @throws SQLException Controla los errores tipo SQL que se pudieran dar
      * por la actualización de la información a la base de datos.
      */
-    public boolean updateData(Patient patient) throws SQLException {
+    public boolean updateData(Patient patient, JFrame window) throws SQLException {
 
         ConnectionDB connectionDB = new ConnectionDB();
         Connection connection = connectionDB.getConnectionDB();
@@ -330,11 +350,11 @@ public class PatientsService {
             int recordsUpdated = ps.executeUpdate();
 
             if (recordsUpdated > 0) {
-                JOptionPane.showMessageDialog(null, "Registro modificado con "
+                JOptionPane.showMessageDialog(window, "Registro modificado con "
                         + "éxito.");
             } else {
 
-                JOptionPane.showMessageDialog(null, "Registro modificado sin "
+                JOptionPane.showMessageDialog(window, "Registro modificado sin "
                         + "éxito.");
                 connectionDB.closeConnectionDB();
                 return false;
@@ -345,9 +365,9 @@ public class PatientsService {
             return true;
 
         } catch (HeadlessException | SQLException e) {
-
+            
             connectionDB.closeConnectionDB();
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(window, e);
             return false;
 
         }
@@ -360,13 +380,16 @@ public class PatientsService {
      * @param patient Toma el atributo id del objeto patient para realizar la
      * eliminación del registro en la tabla. El registro a eliminar depende del
      * valor del atributo tomado.
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un valor booleano dependiendo de la conclusión de la
      * eliminación del registro. True la eliminación del registro terminó
      * correctamente, False la eliminación del registro no se concretó.
      * @throws SQLException Controla los errores tipo SQL que se pudieran dar
      * por la eliminación del registro de la base de datos.
      */
-    public boolean deletePatient(Patient patient) throws SQLException {
+    public boolean deletePatient(Patient patient, JFrame window) throws SQLException {
 
         ConnectionDB connectionDB = new ConnectionDB();
         Connection connection = connectionDB.getConnectionDB();
@@ -383,11 +406,11 @@ public class PatientsService {
             int recordsDeleted = ps.executeUpdate();
 
             if (recordsDeleted > 0) {
-                JOptionPane.showMessageDialog(null, "Registro eliminado con "
+                JOptionPane.showMessageDialog(window, "Registro eliminado con "
                         + "éxito");
             } else {
 
-                JOptionPane.showMessageDialog(null, "Registro eliminado sin "
+                JOptionPane.showMessageDialog(window, "Registro eliminado sin "
                         + "éxito.");
                 connectionDB.closeConnectionDB();
                 return false;
@@ -400,7 +423,7 @@ public class PatientsService {
         } catch (HeadlessException | SQLException e) {
 
             connectionDB.closeConnectionDB();
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(window, e);
             return false;
 
         }
@@ -411,12 +434,15 @@ public class PatientsService {
      * Hace una consulta para saber el total de pacientes registrados en la base
      * de datos.
      *
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un objeto tipo String con la cantidad obtenida de la
      * consulta.
      * @throws SQLException Controla los errores de tipo SQL que se pudieran dar
      * por la consulta de información a la base de datos.
      */
-    public String getTotalPatients() throws SQLException {
+    public String getTotalPatients(JFrame window) throws SQLException {
 
         String query = "SELECT COUNT(id_patient) FROM " + this.table;
         String queryResult = null;
@@ -441,7 +467,7 @@ public class PatientsService {
         } catch (SQLException e) {
 
             connectionDB.closeConnectionDB();
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(window, e);
 
         }
 
@@ -455,12 +481,15 @@ public class PatientsService {
      *
      * @param status Recibe un objeto de tipo String que va a contener el estado
      * a buscar.
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un objeto tipo String con la cantidad obtenida de la
      * consulta.
      * @throws SQLException Controla los errores de tipo SQL que se pudieran dar
      * por la consulta de información a la base de datos.
      */
-    public String getTotalPatientsByStatus(String status) throws SQLException {
+    public String getTotalPatientsByStatus(String status, JFrame window) throws SQLException {
 
         String query = "SELECT COUNT(teststatus_patient) FROM " + this.table
                 + " WHERE teststatus_patient = \"" + status + "\"";
@@ -486,7 +515,7 @@ public class PatientsService {
         } catch (SQLException e) {
 
             connectionDB.closeConnectionDB();
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(window, e);
 
         }
 
@@ -498,6 +527,9 @@ public class PatientsService {
      * Hace una consulta para obtener el total de los estados de pruebas
      * agrupado por estado de prueba.
      *
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un objeto de tipo ArrayList, en el primer índice esta el
      * total pruebas negativas, en el segundo el total de pruebas pendientes, en
      * el tercer el total de pruebas prositivas, en el cuarto el total de
@@ -505,7 +537,7 @@ public class PatientsService {
      * @throws SQLException Controla los errores de tipo SQL que se pudieran dar
      * por la consulta de información a la base de datos.
      */
-    public ArrayList<String> getTotalPatientsAllStatus() throws SQLException {
+    public ArrayList<String> getTotalPatientsAllStatus(JFrame window) throws SQLException {
 
         String query = "SELECT COUNT(teststatus_patient) FROM " + this.table
                 + " GROUP BY teststatus_patient";
@@ -531,7 +563,7 @@ public class PatientsService {
         } catch (SQLException e) {
 
             connectionDB.closeConnectionDB();
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(window, e);
 
         }
 
@@ -543,12 +575,15 @@ public class PatientsService {
      * Hace una consulta para obtener el total de los pacientes nacionales y
      * extranjeros.
      *
+     * @param window Toma este parámetro para mostrar una ventana emergente con
+     * respecto a este objeto si fuera necesario mostrar un error o mensaje para
+     * el usuario.
      * @return Retorna un objeto de tipo ArrayList, en el primer índice esta el
      * total de nacionales y en el segundo el total de extranjeros.
      * @throws SQLException Controla los errores de tipo SQL que se pudieran dar
      * por la consulta de información a la base de datos.
      */
-    public ArrayList<Integer> getTotalNationalForeign() throws SQLException {
+    public ArrayList<Integer> getTotalNationalForeign(JFrame window) throws SQLException {
 
         String query = "SELECT COUNT(if(nationality_patient = \"Costa Rica\", "
                 + "1, NULL)),  COUNT(if(nationality_patient != \"Costa Rica\", "
@@ -578,7 +613,7 @@ public class PatientsService {
         } catch (SQLException e) {
 
             connectionDB.closeConnectionDB();
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(window, e);
 
         }
 

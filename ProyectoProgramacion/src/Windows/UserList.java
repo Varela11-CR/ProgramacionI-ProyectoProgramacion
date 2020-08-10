@@ -35,10 +35,10 @@ public class UserList extends javax.swing.JFrame {
      * Creates new form UserList
      */
     public UserList() {
-        
+
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
-        
+
     }
 
     public UserList(JFrame window, User user) throws SQLException {
@@ -254,7 +254,7 @@ public class UserList extends javax.swing.JFrame {
     public void initTable() throws SQLException {
 
         UsersService usersService = new UsersService();
-        DefaultTableModel model = usersService.showInformation();
+        DefaultTableModel model = usersService.showInformation(this);
         this.tableUsers.setModel(model);
 
     }
@@ -294,7 +294,7 @@ public class UserList extends javax.swing.JFrame {
 
         UsersService usersService = new UsersService();
         User user = getUserData();
-        usersService.deleteUser(user);
+        usersService.deleteUser(user, this);
 
     }
 

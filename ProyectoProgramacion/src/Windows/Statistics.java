@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
@@ -42,14 +43,15 @@ public class Statistics extends javax.swing.JFrame {
     /**
      * Creates new form Statistics
      *
+     * @param window
      * @throws java.sql.SQLException
      */
-    public Statistics() throws SQLException {
+    public Statistics(JFrame window) throws SQLException {
 
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
-        initCharts();
-        setTextLabels();
+        initCharts(window);
+        setTextLabels(window);
         setLocationRelativeTo(null);
 
     }
@@ -69,10 +71,14 @@ public class Statistics extends javax.swing.JFrame {
 
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
-        initCharts();
-        setTextLabels();
+        initCharts(window);
+        setTextLabels(window);
         setLocationRelativeTo(window);
 
+    }
+
+    private Statistics() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -95,7 +101,7 @@ public class Statistics extends javax.swing.JFrame {
         labelNationalForeignInfo = new javax.swing.JLabel();
         buttonSaveNationalForeignInfo = new javax.swing.JButton();
         buttonRefresh = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        buttonExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Estadísticas COVID-19");
@@ -228,16 +234,16 @@ public class Statistics extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Nirmala UI", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Statistics/Exit.png"))); // NOI18N
-        jButton2.setText("Atrás");
-        jButton2.setBorder(null);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Statistics/ExitRollOver.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonExit.setFont(new java.awt.Font("Nirmala UI", 1, 14)); // NOI18N
+        buttonExit.setForeground(new java.awt.Color(255, 255, 255));
+        buttonExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Statistics/Exit.png"))); // NOI18N
+        buttonExit.setText("Atrás");
+        buttonExit.setBorder(null);
+        buttonExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonExit.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Statistics/ExitRollOver.png"))); // NOI18N
+        buttonExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                buttonExitActionPerformed(evt);
             }
         });
 
@@ -261,7 +267,7 @@ public class Statistics extends javax.swing.JFrame {
                 .addGap(75, 75, 75)
                 .addComponent(buttonRefresh)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(buttonExit)
                 .addGap(75, 75, 75))
         );
         panelBackgroundAboveLayout.setVerticalGroup(
@@ -280,7 +286,7 @@ public class Statistics extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(panelBackgroundAboveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttonRefresh, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(buttonExit, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(15, 15, 15))
         );
 
@@ -326,15 +332,17 @@ public class Statistics extends javax.swing.JFrame {
     }
 
     /**
-     * Inicializa los gráficos globales y los ñade al panel respectivo de cada
+     * Inicializa los gráficos globales y los añade al panel respectivo de cada
      * uno.
      *
-     * @throws SQLException
+     * @throws SQLException Controla los errores tipo SQL que se pudieran dar
+     * por la consulta de la información al usar los métodos para generar
+     * objetos JFreeChart con información almacenada en la base de datos.
      */
-    private void initCharts() throws SQLException {
+    private void initCharts(JFrame window) throws SQLException {
 
-        this.chartStatusPatients = generateGraphDonutStatusPatients();
-        this.chartNationalityPatients = generateGraphDonutNationalityPatients();
+        this.chartStatusPatients = generateGraphDonutStatusPatients(window);
+        this.chartNationalityPatients = generateGraphDonutNationalityPatients(window);
 
         panelChartTestStatus.add(generateChartPanel(this.chartStatusPatients));
         panelChartNationality.add(generateChartPanel(this.chartNationalityPatients));
@@ -345,15 +353,18 @@ public class Statistics extends javax.swing.JFrame {
      * Inicializa los textos que van a mostrar el reporte de la cantidad de
      * estados de las pruebas, las personas nacionales y extranjeras.
      *
-     * @throws SQLException
+     * @param window
+     * @throws SQLException Controla los errores tipo SQL que se pudieran dar
+     * por la consulta de la información al usar métodos para obtener datos para
+     * estadísticas.
      */
-    public void setTextLabels() throws SQLException {
+    public void setTextLabels(JFrame window) throws SQLException {
 
         PatientsService patientsService = new PatientsService();
 
-        String totalPatients = patientsService.getTotalPatients();
-        ArrayList<String> listResultsStates = patientsService.getTotalPatientsAllStatus();
-        ArrayList<Integer> listResultsNationalForeign = patientsService.getTotalNationalForeign();
+        String totalPatients = patientsService.getTotalPatients(this);
+        ArrayList<String> listResultsStates = patientsService.getTotalPatientsAllStatus(window);
+        ArrayList<Integer> listResultsNationalForeign = patientsService.getTotalNationalForeign(window);
 
         labelTestStatusInfo.setText("<html><strong>Total de personas: " + totalPatients + "</strong><br><br>"
                 + "Total de pruebas negativas: " + listResultsStates.get(0) + "<br>"
@@ -377,7 +388,10 @@ public class Statistics extends javax.swing.JFrame {
     private void buttonSaveTestStatusInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveTestStatusInfoActionPerformed
 
         try {
+
             ChartUtils.saveChartAsPNG(new File("reports/Charts/PeopleStatusChart.png"), this.chartStatusPatients, 600, 500);
+            JOptionPane.showMessageDialog(this, "Reporte guardado.");
+
         } catch (IOException ex) {
             Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -393,7 +407,10 @@ public class Statistics extends javax.swing.JFrame {
     private void buttonSaveNationalForeignInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveNationalForeignInfoActionPerformed
 
         try {
+
             ChartUtils.saveChartAsPNG(new File("reports/Charts/NationalForeignChart.png"), this.chartNationalityPatients, 600, 500);
+            JOptionPane.showMessageDialog(this, "Reporte guardado.");
+
         } catch (IOException ex) {
             Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -409,8 +426,8 @@ public class Statistics extends javax.swing.JFrame {
 
         try {
 
-            initCharts();
-            setTextLabels();
+            initCharts(this);
+            setTextLabels(this);
 
         } catch (SQLException ex) {
             Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);
@@ -424,14 +441,14 @@ public class Statistics extends javax.swing.JFrame {
      *
      * @param evt
      */
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void buttonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExitActionPerformed
 
         this.dispose();
 
         Menu formMenu = new Menu(this, this.user);
         formMenu.setVisible(true);
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_buttonExitActionPerformed
     //  ------------------------------------------------------------------------
 
     /**
@@ -455,20 +472,16 @@ public class Statistics extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new Statistics().setVisible(true);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new Statistics().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonExit;
     private javax.swing.JButton buttonRefresh;
     private javax.swing.JButton buttonSaveNationalForeignInfo;
     private javax.swing.JButton buttonSaveTestStatusInfo;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel labelNationalForeignInfo;
     private javax.swing.JLabel labelTestStatusInfo;
     private javax.swing.JPanel panelBackgroundAbove;

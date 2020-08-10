@@ -274,7 +274,7 @@ public class Login extends javax.swing.JFrame {
                     formMenu.setVisible(true);
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Datos incorrectos.");
+                    JOptionPane.showMessageDialog(this, "Datos incorrectos.");
                 }
 
             } catch (SQLException ex) {
@@ -282,7 +282,7 @@ public class Login extends javax.swing.JFrame {
             }
 
         } else {
-            JOptionPane.showMessageDialog(null, "Debe ingresar los datos solicitados.");
+            JOptionPane.showMessageDialog(this, "Debe ingresar los datos solicitados.");
         }
 
     }//GEN-LAST:event_buttonLoginActionPerformed

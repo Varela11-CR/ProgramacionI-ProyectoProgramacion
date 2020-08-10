@@ -307,14 +307,14 @@ public class UserAdministration extends javax.swing.JFrame {
 
                 if (this.operationAddUser) {
 
-                    if (usersService.insertUser(user)) {
+                    if (usersService.insertUser(user, this)) {
                         this.dispose();
                         formUserList.initTable();
                     }
 
                 } else {
 
-                    if (usersService.updateData(user)) {
+                    if (usersService.updateData(user, this)) {
                         this.dispose();
                         formUserList.initTable();
                     }

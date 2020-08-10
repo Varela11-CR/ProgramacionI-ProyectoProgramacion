@@ -31,14 +31,14 @@ public class PatientRegistry extends javax.swing.JFrame {
      * Creates new form PatientRegistry
      */
     public PatientRegistry() {
-        
+
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
         setLocationRelativeTo(null);
         cleanComponents();
         lockComponents();
         lockDateEditor();
-        
+
     }
 
     /**
@@ -50,7 +50,7 @@ public class PatientRegistry extends javax.swing.JFrame {
      * los permisos de usuario.
      */
     public PatientRegistry(JFrame window, User user) {
-        
+
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/Images/Logo/logo.png")).getImage());
         setLocationRelativeTo(window);
@@ -59,7 +59,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         lockDateEditor();
 
         this.user = user;
-        
+
     }
 
     /**
@@ -175,7 +175,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         labelObservations.setText("Observaciones:");
 
         textFieldIdPatient.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
-        textFieldIdPatient.setToolTipText("");
+        textFieldIdPatient.setToolTipText("000000000");
         textFieldIdPatient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldIdPatientActionPerformed(evt);
@@ -183,6 +183,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         });
 
         textFieldNamePatient.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
+        textFieldNamePatient.setToolTipText("Máximo 40 carácteres.");
         textFieldNamePatient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldNamePatientActionPerformed(evt);
@@ -190,6 +191,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         });
 
         textFieldFirstLastName.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
+        textFieldFirstLastName.setToolTipText("Máximo 30 carácteres.");
         textFieldFirstLastName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldFirstLastNameActionPerformed(evt);
@@ -197,6 +199,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         });
 
         textFieldSecondLastName.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
+        textFieldSecondLastName.setToolTipText("Máximo 30 carácteres.");
         textFieldSecondLastName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldSecondLastNameActionPerformed(evt);
@@ -204,6 +207,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         });
 
         textFieldPhoneNumber.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
+        textFieldPhoneNumber.setToolTipText("Máximo 20 carácteres.");
         textFieldPhoneNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldPhoneNumberActionPerformed(evt);
@@ -211,6 +215,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         });
 
         textFieldAddress.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
+        textFieldAddress.setToolTipText("Máximo 250 carácteres.");
         textFieldAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldAddressActionPerformed(evt);
@@ -221,6 +226,7 @@ public class PatientRegistry extends javax.swing.JFrame {
         textAreaObservations.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
         textAreaObservations.setLineWrap(true);
         textAreaObservations.setRows(5);
+        textAreaObservations.setToolTipText("Máximo 500 carácteres.");
         jScrollPane1.setViewportView(textAreaObservations);
 
         comboBoxTestStatus.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
@@ -544,25 +550,25 @@ public class PatientRegistry extends javax.swing.JFrame {
 
         if (patientsService.validateAllDataIncomplete(patient)) {
 
-            JOptionPane.showMessageDialog(null, "Todos los campos requeridos por "
+            JOptionPane.showMessageDialog(this, "Todos los campos requeridos por "
                     + "el formulario están vacíos, rellénelos y vuelva a intentar "
                     + "ingresar al paciente.");
 
         } else if (patientsService.validateDataByData(patient)) {
 
-            JOptionPane.showMessageDialog(null, "Uno o más campos requeridos "
+            JOptionPane.showMessageDialog(this, "Uno o más campos requeridos "
                     + "por el formulario están vacíos, rellénelos y vuelva a "
                     + "intentar ingresar al paciente.");
 
         } else if (!patientsService.validateDataTypes(patient)) {
 
-            JOptionPane.showMessageDialog(null, "Uno o más tipos de datos no son "
+            JOptionPane.showMessageDialog(this, "Uno o más tipos de datos no son "
                     + "los solicitados por el formulario, revíselos y vuelva a "
                     + "intentar ingresar al paciente.");
 
         } else {
 
-            if (patientsService.insertData(patient)) {
+            if (patientsService.insertData(patient, this)) {
 
                 cleanComponents();
                 lockComponents();
@@ -643,7 +649,8 @@ public class PatientRegistry extends javax.swing.JFrame {
 
     /**
      * Cierra el formulario y crea uno nuevo tipo Menu.
-     * @param evt 
+     *
+     * @param evt
      */
     private void buttonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExitActionPerformed
 

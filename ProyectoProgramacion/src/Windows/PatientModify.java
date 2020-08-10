@@ -134,6 +134,7 @@ public class PatientModify extends javax.swing.JFrame {
         labelNamePatient.setText("Nombre:");
 
         textFieldNamePatient.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
+        textFieldNamePatient.setToolTipText("Máximo 40 carácteres.");
         textFieldNamePatient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldNamePatientActionPerformed(evt);
@@ -144,6 +145,7 @@ public class PatientModify extends javax.swing.JFrame {
         labelFirstLastName.setText("Primer apellido:");
 
         textFieldFirstLastName.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
+        textFieldFirstLastName.setToolTipText("Máximo 30 carácteres.");
         textFieldFirstLastName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldFirstLastNameActionPerformed(evt);
@@ -154,6 +156,7 @@ public class PatientModify extends javax.swing.JFrame {
         labelSecondLastName.setText("Segundo apellido:");
 
         textFieldSecondLastName.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
+        textFieldSecondLastName.setToolTipText("Máximo 30 carácteres.");
         textFieldSecondLastName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldSecondLastNameActionPerformed(evt);
@@ -190,6 +193,7 @@ public class PatientModify extends javax.swing.JFrame {
         labelPhoneNumber.setText("Número de télefono:");
 
         textFieldPhoneNumber.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
+        textFieldPhoneNumber.setToolTipText("Máximo 20 carácteres.");
         textFieldPhoneNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldPhoneNumberActionPerformed(evt);
@@ -200,6 +204,7 @@ public class PatientModify extends javax.swing.JFrame {
         labelAddress.setText("Dirección:");
 
         textFieldAddress.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
+        textFieldAddress.setToolTipText("Máximo 250 carácteres.");
         textFieldAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldAddressActionPerformed(evt);
@@ -213,6 +218,7 @@ public class PatientModify extends javax.swing.JFrame {
         textAreaObservations.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
         textAreaObservations.setLineWrap(true);
         textAreaObservations.setRows(5);
+        textAreaObservations.setToolTipText("Máximo 500 carácteres.");
         jScrollPane1.setViewportView(textAreaObservations);
 
         buttonModify.setFont(new java.awt.Font("Nirmala UI", 1, 12)); // NOI18N
@@ -495,7 +501,7 @@ public class PatientModify extends javax.swing.JFrame {
 
         } else {
 
-            if (patientsService.updateData(patientModification)) {
+            if (patientsService.updateData(patientModification, this)) {
 
                 this.dispose();
 
