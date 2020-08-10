@@ -560,7 +560,10 @@ public class PatientModify extends javax.swing.JFrame {
     private void buttonModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModifyActionPerformed
 
         try {
+            
             updatePatient();
+            formPatientSearch.initTablePatientsTable();
+            
         } catch (SQLException ex) {
             Logger.getLogger(PatientModify.class.getName()).log(Level.SEVERE, null, ex);
         }

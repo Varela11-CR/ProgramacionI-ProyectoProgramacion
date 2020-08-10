@@ -346,7 +346,7 @@ public class PatientSearch extends javax.swing.JFrame {
      * @throws SQLException Controla los errores tipo SQL que se pudieran dar
      * por la consulta de la información a la base de datos.
      */
-    private void initTablePatientsTable() throws SQLException {
+    public void initTablePatientsTable() throws SQLException {
 
         PatientsService patientService = new PatientsService();
         DefaultTableModel model = patientService.showInformation(this);
@@ -491,7 +491,10 @@ public class PatientSearch extends javax.swing.JFrame {
         if (option == 0) {
 
             try {
+
                 removePatient();
+                initTablePatientsTable();
+
             } catch (SQLException ex) {
                 Logger.getLogger(PatientSearch.class.getName()).log(Level.SEVERE, null, ex);
             }
