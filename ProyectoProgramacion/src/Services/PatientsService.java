@@ -365,7 +365,7 @@ public class PatientsService {
             return true;
 
         } catch (HeadlessException | SQLException e) {
-            
+
             connectionDB.closeConnectionDB();
             JOptionPane.showMessageDialog(window, e);
             return false;
@@ -539,8 +539,12 @@ public class PatientsService {
      */
     public ArrayList<String> getTotalPatientsAllStatus(JFrame window) throws SQLException {
 
-        String query = "SELECT COUNT(teststatus_patient) FROM " + this.table
-                + " GROUP BY teststatus_patient";
+        String queryNegative = "SELECT COUNT(if(teststatus_patient = \"Negativo\", "
+                + "1, NULL)), COUNT(if(teststatus_patient = \"Pendiente\", "
+                + "1, NULL)), COUNT(if(teststatus_patient = \"Positivo\", "
+                + "1, NULL)), COUNT(if(teststatus_patient = \"Recuperado\", "
+                + "1, NULL)) FROM patients";
+
         ArrayList<String> queryResults = new ArrayList<>();
 
         ConnectionDB connectionDB = new ConnectionDB();
@@ -551,11 +555,16 @@ public class PatientsService {
 
         try {
 
-            ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(queryNegative);
             rs = ps.executeQuery();
 
             while (rs.next()) {
+
                 queryResults.add(rs.getString(1));
+                queryResults.add(rs.getString(2));
+                queryResults.add(rs.getString(3));
+                queryResults.add(rs.getString(4));
+
             }
 
             connectionDB.closeConnectionDB();
